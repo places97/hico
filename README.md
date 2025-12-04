@@ -10,7 +10,7 @@ Tomcat Run Edit 설정
 
 
 ### eclipse 설정 :
-1. 
+1. .setting/org.eclipse.wst.common.project.facet.core 파일의 
 
 ----
 
