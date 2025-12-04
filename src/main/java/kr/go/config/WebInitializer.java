@@ -23,7 +23,8 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
   // 3. DispatcherServlet 매핑 설정
   @Override
   protected String[] getServletMappings() {
-    return new String[]{"*.do"};
+    return new String[]{"/", "*.do"};
+//    return new String[]{"*.do"};
   }
 
   @Override

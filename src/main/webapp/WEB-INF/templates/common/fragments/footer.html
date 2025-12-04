@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="FooterFragment">
+
+<head>
+  <style>
+    footer {
+      width: 100%;
+      background: #1f2937; /* 짙은 그레이 */
+      color: #e5e7eb;
+      padding: 24px 20px;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-top: 50px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-menu {
+      margin-bottom: 10px;
+    }
+
+    .footer-menu a {
+      color: #9ca3af;
+      margin-right: 16px;
+      text-decoration: none;
+    }
+
+    .footer-menu a:hover {
+      color: #ffffff;
+    }
+
+    .footer-copy {
+      color: #9ca3af;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+<footer th:fragment="FooterFragment">
+  <div class="footer-inner">
+
+    <div class="footer-menu">
+      <a href="#">개인정보처리방침</a>
+      <a href="#">이용약관</a>
+      <a href="#">고객센터</a>
+    </div>
+
+    <div class="footer-copy">
+      Ⓒ 2025 My HICO. All Rights Reserved.
+    </div>
+
+  </div>
+</footer>
+</body>
+
+</html>

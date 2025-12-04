@@ -39,8 +39,7 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
   public SpringResourceTemplateResolver templateResolver() {
     SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
     templateResolver.setApplicationContext(this.applicationContext);
-    // 템플릿 파일 경로 및 확장자 설정
-    templateResolver.setPrefix("/WEB-INF/views/"); // JSP 대신 HTML 파일을 여기에 배치
+    templateResolver.setPrefix("/WEB-INF/templates/"); // JSP 대신 HTML 파일을 여기에 배치
     templateResolver.setSuffix(".html");
     templateResolver.setTemplateMode(TemplateMode.HTML);
     templateResolver.setCacheable(false); // 개발 중에는 false, 운영 시 true 권장
@@ -56,7 +55,6 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();
     templateEngine.setTemplateResolver(templateResolver());
     templateEngine.setEnableSpringELCompiler(true); // Spring Expression Language 활성화
-    // Thymeleaf Layout Dialect 추가
     templateEngine.addDialect(new LayoutDialect());
     return templateEngine;
   }
@@ -68,8 +66,8 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
   public ThymeleafViewResolver viewResolver() {
     ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
     viewResolver.setTemplateEngine(templateEngine());
-    viewResolver.setOrder(1); // 뷰 리졸버의 우선순위 설정
     viewResolver.setCharacterEncoding("UTF-8");
+    viewResolver.setOrder(1);
     return viewResolver;
   }
 

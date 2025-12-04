@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout/layout}">
+<head>
+  <title layout:fragment="title">Main</title>
+
+  <style>
+    .container {
+      max-width: 900px;
+      margin: 30px auto 0;
+      padding: 20px;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-area {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .form-area input {
+      flex: 1;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      background: #1976d2;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    .btn:hover {
+      background: #0d47a1;
+    }
+
+    #data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 15px;
+    }
+
+    #data-table th {
+      background: #f3f6fa;
+      color: #333;
+      padding: 10px;
+      border-bottom: 2px solid #ccc;
+    }
+
+    #data-table td {
+      border-bottom: 1px solid #e0e0e0;
+      padding: 10px;
+    }
+
+    #data-table tbody tr:hover {
+      background: #f9fcff;
+    }
+
+    .no-data {
+      text-align: center;
+      color: #888;
+    }
+  </style>
+</head>
+
+<body>
+<main layout:fragment="Content">
+  <div class="container">
+
+    <div class="form-area">
+      <input id="ipt" type="text" placeholder="입력 값"/>
+      <button class="btn" id="btn">입력</button>
+      <button class="btn" id="reset">초기화</button>
+      <button class="btn" id="sel">조회</button>
+      <button class="btn" id="move">이동</button>
+      <button class="btn" id="err">에러</button>
+    </div>
+
+    <input id="rst" type="text" readonly placeholder="결과 값"
+           style="width:100%; margin-bottom:10px; padding:10px;"/>
+
+    <h3 style="margin-top: 20px; margin-bottom:10px;">조회 결과 목록</h3>
+
+    <table id="data-table">
+      <thead>
+      <tr>
+        <th style="width:70px;">순번</th>
+        <th>제목</th>
+        <th style="width:180px;">날짜</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td colspan="3" class="no-data">조회 버튼을 눌러 데이터를 가져오세요.</td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+</main>
+
+<th:block layout:fragment="script">
+  <!-- JSRender Template -->
+  <script id="dataRowTmpl" type="text/x-jsrender">
+    <tr>
+      <td>{{: #index + 1}}</td>
+      <td>{{: testContent}}</td>
+      <td>{{: regDate}}</td>
+    </tr>
+  </script>
+
+  <!-- 기존 JS 동일 ↓ -->
+  <script type="text/javascript">
+    $(document).ready(function () {
+      fnAddEvent();
+    });
+
+    function fnAddEvent() {
+      $('#btn').on('click', fnRegister);
+      $('#reset').on('click', fnReset);
+      $('#sel').on('click', fnList);
+      $('#move').on('click', fnMove);
+      $('#err').on('click', fnErr);
+    }
+
+    function fnMove() {
+      window.location.href = '/test/page.do';
+    }
+
+    function fnRegister() {
+      let result = $('#ipt').val();
+      $('#rst').val(result);
+    }
+
+    function fnReset() {
+      $('#rst').val("");
+    }
+
+    function fnList() {
+      $.ajax({
+        url: '/test/list.do',
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: {},
+        success: function (response) {
+          var dataList = response.data;
+          fnRenderTable(dataList);
+        },
+        error: function (response) {
+          var errorResultVo = JSON.parse(response.responseText);
+          alert("에러 발생: " + errorResultVo.resMsg);
+        }
+      });
+    }
+
+    function fnRenderTable(dataList) {
+      let $tbody = $('#data-table tbody');
+      $tbody.empty();
+
+      if (dataList?.length > 0) {
+        let template = $.templates("#dataRowTmpl");
+        let htmlOutput = template.render(dataList);
+        $tbody.append(htmlOutput);
+      } else {
+        $tbody.append('<tr><td colspan="3" class="no-data">조회된 데이터가 없습니다.</td></tr>');
+      }
+    }
+
+    function fnErr() {
+      $.ajax({
+        url: '/test/error-test.do',
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        timeout: 120000,
+        success: function () {
+        },
+        error: function (response) {
+          var errorResultVo = JSON.parse(response.responseText);
+          alert("에러 발생: " + errorResultVo.resMsg);
+        }
+      });
+    }
+  </script>
+</th:block>
+
+</body>
+</html>
