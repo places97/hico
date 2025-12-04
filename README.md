@@ -10,7 +10,9 @@ Tomcat Run Edit 설정
 
 
 ### eclipse 설정 :
-1. jst.web 버전 3.1로 변경
+1. .setting/org.eclipse.wst.common.project.facet.core 의 jst.web 버전 3.1로 변경
+2. Servers -> Tomcat 8.5 연결
+3. 프로젝트의 run configuration -> arguments -> VM arguments 의 -Dfile.encoding=UTF-8 -Dspring.profiles.active=local 추가
 
 ----
 
