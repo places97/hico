@@ -8,6 +8,10 @@ Tomcat Run Edit 설정
 3. VM Option : -Dfile.encoding=UTF-8 -Dspring.profiles.active=local
 4. Deployment 이동 -> add Artifact -> war exploded -> Application context : /
 
+
+### eclipse 설정 :
+1. 
+
 ----
 
 ### 개발 가이드
