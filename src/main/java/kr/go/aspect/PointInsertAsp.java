@@ -24,11 +24,11 @@
       PointInsert annotation = signature.getMethod().getAnnotation(PointInsert.class);
       int accumulationRate = annotation.value();
 
-      log.info("--------------------------------------------------");
+      log.info("----------------------------------------------------");
       log.info("AOP - 포인트 적립 로직 실행 ");
       log.info("실행된 메서드: {}", methodName);
       log.info("지정된 적립 비율: {}", accumulationRate);
       log.info("포인트 적립 완료 ");
-      log.info("--------------------------------------------------");
+      log.info("----------------------------------------------------");
     }
   }
