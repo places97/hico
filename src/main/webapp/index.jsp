@@ -7,7 +7,7 @@
 <%--&ndash;%&gt;--%>
 <%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
 <%--<script src="/js/jquery/jquery-3.7.1.min.js"></script>--%>
-
+<%-- 2512041537 test --%>
 <%--<script type="text/javascript">--%>
 <%--  $(document).ready(function(){--%>
 <%--    fnAddEvent(); // 페이지 이벤트 추가--%>
