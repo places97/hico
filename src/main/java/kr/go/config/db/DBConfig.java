@@ -1,7 +1,7 @@
 package kr.go.config.db;
 
-import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -41,11 +40,13 @@ public class DBConfig {
   @Bean(name = "innerDB")
   @Primary
   public DataSource innerDataSource() {
-    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    //DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    DataSource dataSource = new DataSource();
     dataSource.setDriverClassName(driverClassName);
     dataSource.setUrl(url);
     dataSource.setUsername(username);
     dataSource.setPassword(password);
+    dataSource.setInitSQL("SET search_path TO hico, public");
     return dataSource;
   }
 
