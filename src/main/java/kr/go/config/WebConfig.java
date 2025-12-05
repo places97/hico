@@ -39,7 +39,7 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
   public SpringResourceTemplateResolver templateResolver() {
     SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
     templateResolver.setApplicationContext(this.applicationContext);
-    templateResolver.setPrefix("/WEB-INF/templates/"); // JSP 대신 HTML 파일을 여기에 배치
+    templateResolver.setPrefix("/WEB-INF/views/"); // JSP 대신 HTML 파일을 여기에 배치
     templateResolver.setSuffix(".html");
     templateResolver.setTemplateMode(TemplateMode.HTML);
     templateResolver.setCacheable(false); // 개발 중에는 false, 운영 시 true 권장
