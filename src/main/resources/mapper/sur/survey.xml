@@ -1,0 +1,39 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.go.mapper.sur.SurveyMapper">
+
+  <sql id="Columns">
+    , ${ta}sur_id ${ca}sur_id
+		, ${ta}target_cd ${ca}target_cd
+		, ${ta}title ${ca}title
+		, ${ta}start_dt ${ca}start_dt
+		, ${ta}end_dt ${ca}end_dt
+  </sql>
+
+  <resultMap type="SurveyVo" id="SurveyMap" autoMapping="true">
+    <id property="surId" column="sur_id"/>
+
+    <collection property="surQuestionVoList" ofType="SurQuestionVo" columnPrefix="sq_"
+      autoMapping="true">
+      <id property="surQstId" column="sur_qst_id"/>
+    </collection>
+  </resultMap>
+
+  <select id="getList" resultMap="SurveyMap">
+    SELECT
+    <trim prefixOverrides=",">
+      <include refid="Columns">
+        <property name="ta" value="s."/>
+        <property name="ca" value=""/>
+      </include>
+      <include refid="kr.go.mapper.sur.SurQuestionMapper.Columns">
+        <property name="ta" value="sq."/>
+        <property name="ca" value="sq_"/>
+      </include>
+    </trim>
+    FROM survey s
+    LEFT JOIN survey_question sq
+    ON s.sur_id = sq.sur_id
+  </select>
+
+</mapper>

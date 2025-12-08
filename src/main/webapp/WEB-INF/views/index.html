@@ -4,74 +4,6 @@
       layout:decorate="~{template/layout/layout}">
 <head>
   <title layout:fragment="title">Main</title>
-
-  <style>
-    .container {
-      max-width: 900px;
-      margin: 30px auto 0;
-      padding: 20px;
-      background: #ffffff;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-    }
-
-    .form-area {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .form-area input {
-      flex: 1;
-      padding: 8px 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    .btn {
-      padding: 8px 14px;
-      border: none;
-      border-radius: 6px;
-      background: #1976d2;
-      color: #fff;
-      cursor: pointer;
-      transition: 0.25s;
-    }
-
-    .btn:hover {
-      background: #0d47a1;
-    }
-
-    #data-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      font-size: 15px;
-    }
-
-    #data-table th {
-      background: #f3f6fa;
-      color: #333;
-      padding: 10px;
-      border-bottom: 2px solid #ccc;
-    }
-
-    #data-table td {
-      border-bottom: 1px solid #e0e0e0;
-      padding: 10px;
-    }
-
-    #data-table tbody tr:hover {
-      background: #f9fcff;
-    }
-
-    .no-data {
-      text-align: center;
-      color: #888;
-    }
-  </style>
 </head>
 
 <body>
@@ -83,8 +15,9 @@
       <button class="btn" id="btn">입력</button>
       <button class="btn" id="reset">초기화</button>
       <button class="btn" id="sel">조회</button>
-      <button class="btn" id="move">이동</button>
+      <button class="btn" id="move" onclick="fnMove('test/page.do')">이동</button>
       <button class="btn" id="err">에러</button>
+      <button class="btn" id="survey" onclick="fnMove('sur/page.do')">설문</button>
     </div>
 
     <input id="rst" type="text" readonly placeholder="결과 값"
@@ -130,12 +63,11 @@
       $('#btn').on('click', fnRegister);
       $('#reset').on('click', fnReset);
       $('#sel').on('click', fnList);
-      $('#move').on('click', fnMove);
       $('#err').on('click', fnErr);
     }
 
-    function fnMove() {
-      window.location.href = '/test/page.do';
+    function fnMove(url) {
+        window.location.href = url;
     }
 
     function fnRegister() {
@@ -198,3 +130,71 @@
 
 </body>
 </html>
+
+<style>
+  .container {
+    max-width: 900px;
+    margin: 30px auto 0;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  }
+
+  .form-area {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .form-area input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background: #1976d2;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+
+  .btn:hover {
+    background: #0d47a1;
+  }
+
+  #data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 15px;
+  }
+
+  #data-table th {
+    background: #f3f6fa;
+    color: #333;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+  }
+
+  #data-table td {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px;
+  }
+
+  #data-table tbody tr:hover {
+    background: #f9fcff;
+  }
+
+  .no-data {
+    text-align: center;
+    color: #888;
+  }
+</style>

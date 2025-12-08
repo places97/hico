@@ -1,0 +1,25 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.go.mapper.sur.SurQuestionMapper">
+
+  <sql id="Columns">
+    , ${ta}sur_qst_id ${ca}sur_qst_id
+    , ${ta}sur_id ${ca}sur_id
+		, ${ta}title ${ca}title
+		, ${ta}capabilitie_cd ${ca}capabilitie_cd
+		, ${ta}capabilitie_dtl_cd ${ca}capabilitie_dtl_cd
+  </sql>
+
+
+  <select id="selSurQuestionBySurId" resultType="SurQuestionVo">
+    SELECT
+    <trim prefixOverrides=",">
+      <include refid="Columns">
+        <property name="ta" value=""/>
+        <property name="ca" value=""/>
+      </include>
+    </trim>
+    FROM survey_question
+    WHERE sur_id = ${surId}
+  </select>
+</mapper>

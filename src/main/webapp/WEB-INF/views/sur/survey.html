@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template/layout/layout}">
+<head>
+  <title layout:fragment="title">설문</title>
+</head>
+<main layout:fragment="Content">
+  <div class="container">
+    <div class="form-area">
+      <button class="btn" onclick="window.history.back()">뒤로</button>
+      <button class="btn" id="sel">조회</button>
+    </div>
+    <h3 style="margin-top: 20px; margin-bottom:10px;">설문지 목록</h3>
+
+    <table id="data-table">
+      <thead>
+      <tr>
+        <th style="width:70px;">ID</th>
+        <th>설문 대상</th>
+        <th style="width:180px;">제목</th>
+        <th style="width:180px;">시작일</th>
+        <th style="width:180px;">종료일</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td colspan="5" class="no-data">조회 버튼을 눌러 데이터를 가져오세요.</td>
+      </tr>
+      </tbody>
+    </table>
+    <h3 style="margin-top: 20px; margin-bottom:10px;">문항 목록</h3>
+    <table id="data-table-dtl">
+      <thead>
+      <tr>
+        <th style="width:50px;">설문상세ID</th>
+        <th style="width:50px;">설문ID</th>
+        <th style="width:360px;">제목</th>
+        <th style="width:60px;">역량</th>
+        <th style="width:50px;">역량상세</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td colspan="5" class="no-data">조회 버튼을 눌러 데이터를 가져오세요.</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <th:block layout:fragment="script">
+      <!-- JSRender Template -->
+      <script id="dataRowTmpl" type="text/x-jsrender">
+        <tr data-sur-id={{:surId}}>
+          <td>{{: surId}}</td>
+          <td>{{: targetCd}}</td>
+          <td>{{: title}}</td>
+          <td>{{: startDt}}</td>
+          <td>{{: endDt}}</td>
+        </tr>
+      </script>
+
+      <script id="dataRowTmplDtl" type="text/x-jsrender">
+        <tr data-sur-Qst-id={{:surQstId}}>
+          <td>{{: surQstId}}</td>
+          <td>{{: surId}}</td>
+          <td>{{: title}}</td>
+          <td>{{: capabilitieCd}}</td>
+          <td>{{: capabilitieDtlCd}}</td>
+        </tr>
+      </script>
+
+      <script type="text/javascript">
+
+        $(document).ready(function () {
+          fnAddEvent();
+        });
+
+        function fnAddEvent() {
+          $('#sel').on('click', fnList);
+          $('#data-table > tbody').on('click','tr',fnDetailGrid)
+        }
+        function fnDetailGrid() {
+          if ($(this).data("isEmpty"))
+            return;
+
+          var surId = $(this).data('surId');
+          fnDetail(surId)
+          // var detailUrl = '/sur/detailPage.do?surId=' + surId;
+          // window.open(detailUrl, 'surveyDetail', 'width=800, height=600, scrollbars=yes, resizable=yes');
+        }
+
+        function fnList() {
+          $.ajax({
+            url: '/sur/list.do',
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: {},
+            success: function (response) {
+              var dataSet = response.data;
+              fnRenderTable(dataSet);
+            },
+            error: function (response) {
+              var errorResultVo = JSON.parse(response.responseText);
+              alert("에러 발생: " + errorResultVo.resMsg);
+            }
+          });
+        }
+        function fnDetail(surId) {
+          $.ajax({
+            url: '/surQuestion/selSurQuestionBySurId.do/'+surId,
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: {},
+            success: function (response) {
+              var dataSetDetail = response.data;
+              fnRenderDetailTable(dataSetDetail);
+            },
+            error: function (response) {
+              var errorResultVo = JSON.parse(response.responseText);
+              alert("에러 발생: " + errorResultVo.resMsg);
+            }
+          });
+        }
+
+        function fnRenderTable(dataList) {
+          let $tbody = $('#data-table tbody');
+          $tbody.empty();
+
+          if (dataList?.length > 0) {
+            let template = $.templates("#dataRowTmpl");
+            let htmlOutput = template.render(dataList);
+            $tbody.append(htmlOutput);
+          } else {
+            $tbody.append('<tr><td colspan="5" class="no-data">조회된 데이터가 없습니다.</td></tr>');
+          }
+        }
+        function fnRenderDetailTable(dataList) {
+          let $tbody = $('#data-table-dtl tbody');
+          $tbody.empty();
+
+          if (dataList?.length > 0) {
+            let template = $.templates("#dataRowTmplDtl");
+            let htmlOutput = template.render(dataList);
+            $tbody.append(htmlOutput);
+          } else {
+            $tbody.append('<tr><td colspan="5" class="no-data">조회된 데이터가 없습니다.</td></tr>');
+          }
+        }
+      </script>
+    </th:block>
+  </div>
+</main>
+</html>
+
+
+<style>
+  .container {
+    max-width: 900px;
+    margin: 30px auto 0;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  }
+
+  .form-area {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .form-area input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background: #1976d2;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+
+  .btn:hover {
+    background: #0d47a1;
+  }
+
+  #data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 15px;
+  }
+
+  #data-table th {
+    background: #f3f6fa;
+    color: #333;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+  }
+
+  #data-table td {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px;
+  }
+
+  #data-table tbody tr:hover {
+    background: #f9fcff;
+  }
+
+  #data-table-dtl {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 15px;
+  }
+
+  #data-table-dtl th {
+    background: #f3f6fa;
+    color: #333;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+  }
+
+  #data-table-dtl td {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px;
+  }
+
+  #data-table-dtl tbody tr:hover {
+    background: #f9fcff;
+  }
+
+  .no-data {
+    text-align: center;
+    color: #888;
+  }
+</style>
