@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template/layout/layout}">
+  <head>
+    <meta charset="UTF-8">
+    <title>hoon 테스트</title>
+  </head>
+  <body>
+    <main layout:fragment="Content">
+      <div class="container">
+
+        <div class="form-area">
+          <input id="ipt" type="text" placeholder="입력 값"/>
+          <button class="btn" id="btn">입력</button>
+          <button class="btn" id="reset">초기화</button>
+          <button class="btn" id="sel">조회</button>
+          <button class="btn" id="move">이동</button>
+          <button class="btn" id="err">에러</button>
+        </div>
+
+        <input id="rst" type="text" readonly placeholder="결과 값"
+               style="width:100%; margin-bottom:10px; padding:10px;"/>
+
+        <h3 style="margin-top: 20px; margin-bottom:10px;">조회 결과 목록</h3>
+
+        <table id="data-table">
+          <thead>
+          <tr>
+            <th style="width:20px;">순번</th>
+            <th style="width:180px;">이름</th>
+            <th style="width:180px;">이메일</th>
+            <th style="width:180px;">주민등록번호</th>
+            <th style="width:180px;">전화번호</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td colspan="3" class="no-data">조회 버튼을 눌러 데이터를 가져오세요.</td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+  </main>
+
+    <th:block layout:fragment="script">
+      <!-- JSRender Template -->
+      <script id="dataRowTmpl" type="text/x-jsrender">
+        <tr>
+          <td style="width:20px;">{{: #index + 1}}</td>
+          <td style="width:180px;">{{: name}}</td>
+          <td style="width:180px;">{{: email}}</td>
+          <td style="width:180px;">{{: ssn}}</td>
+          <td style="width:180px;">{{: phone}}</td>
+        </tr>
+      </script>
+
+      <!-- 기존 JS 동일 ↓ -->
+      <script type="text/javascript">
+        $(document).ready(function () {
+          fnAddEvent();
+        });
+
+        function fnAddEvent() {
+          $('#btn').on('click', fnRegister);
+          $('#reset').on('click', fnReset);
+          $('#sel').on('click', fnList);
+          $('#move').on('click', fnMove);
+          $('#err').on('click', fnErr);
+        }
+
+        function fnMove() {
+          window.location.href = '/test2/page.do';
+        }
+
+        function fnRegister() {
+          let result = $('#ipt').val();
+          $('#rst').val(result);
+        }
+
+        function fnReset() {
+          $('#rst').val("");
+        }
+
+        function fnList() {
+          $.ajax({
+            url: '/test2/list.do',
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: {},
+            success: function (response) {
+              var dataList = response.data;
+              fnRenderTable(dataList);
+            },
+            error: function (response) {
+              var errorResultVo = JSON.parse(response.responseText);
+              alert("에러 발생: " + errorResultVo.resMsg);
+            }
+          });
+        }
+
+        function fnRenderTable(dataList) {
+          let $tbody = $('#data-table tbody');
+          $tbody.empty();
+
+          if (dataList?.length > 0) {
+            let template = $.templates("#dataRowTmpl");
+            let htmlOutput = template.render(dataList);
+            $tbody.append(htmlOutput);
+          } else {
+            $tbody.append('<tr><td colspan="3" class="no-data">조회된 데이터가 없습니다.</td></tr>');
+          }
+        }
+
+        function fnErr() {
+          $.ajax({
+            url: '/test/error-test.do',
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            timeout: 120000,
+            success: function () {
+            },
+            error: function (response) {
+              var errorResultVo = JSON.parse(response.responseText);
+              alert("에러 발생: " + errorResultVo.resMsg);
+            }
+          });
+        }
+      </script>
+  </th:block>
+
+  </body>
+</html>
