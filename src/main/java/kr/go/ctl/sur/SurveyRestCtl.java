@@ -25,7 +25,7 @@ public class SurveyRestCtl {
 
     List<SurveyVo> rst = surveySvc.getList();
 
-    resultVo.setData(rst);
+    resultVo.setSuccess(rst);
 
     return ResponseEntity.ok(resultVo);
   }

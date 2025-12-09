@@ -4,7 +4,6 @@ import java.util.List;
 import kr.go.svc.sur.SurQuestionSvc;
 import kr.go.vo.cmm.ResultVo;
 import kr.go.vo.sur.SurQuestionVo;
-import kr.go.vo.sur.SurveyVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ public class SurQuestionRestCtl {
 
     List<SurQuestionVo> rst = surQuestionSvc.selSurQuestionBySurId(surId);
 
-    resultVo.setData(rst);
+    resultVo.setSuccess(rst);
 
     return ResponseEntity.ok(resultVo);
   }

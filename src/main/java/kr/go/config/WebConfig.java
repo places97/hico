@@ -20,7 +20,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 @EnableWebMvc
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(
-    basePackages = {"kr.go.ctl"} // Controller
+    basePackages = {"kr.go.ctl", "kr.go.config"}
 )
 
 public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
@@ -31,8 +31,6 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
     this.applicationContext = applicationContext;
   }
-
-  // --- Thymeleaf Bean 정의 시작 ---
 
   /**
    * 1. 템플릿 리졸버 (Template Resolver) 정의
@@ -79,37 +77,14 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
     registry.addResourceHandler("/js/**").addResourceLocations("/js/");
     registry.addResourceHandler("/images/**").addResourceLocations("/images/");
 
-    // Swagger 설정 시작
-    // 💡 1. Swagger UI 정적 리소스 경로 (WebJars 표준 경로 사용)
+    // Swagger
     registry.addResourceHandler("/swagger-ui/**")
         .addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/");
-
-    // 💡 2. swagger-ui.html 파일 자체에 대한 요청 처리 (가장 확실한 접근 방법)
     registry.addResourceHandler("swagger-ui.html")
         .addResourceLocations("classpath:/META-INF/resources/");
-
-    // 💡 3. v3/api-docs 요청 처리 (API 정의 JSON)
     registry.addResourceHandler("/v3/api-docs/**")
         .addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/");
+    registry.addResourceHandler("/webjars/**")
+        .addResourceLocations("classpath:/META-INF/resources/webjars/");
   }
 }
-// --- Thymeleaf Bean 정의 끝 ---
-
-
-//public class WebConfig implements WebMvcConfigurer {
-//
-//  // 뷰 리졸버 설정 (JSP 파일 경로 지정)
-//  @Override
-//  public void configureViewResolvers(ViewResolverRegistry registry) {
-//    registry.jsp("/WEB-INF/jsp/", ".jsp");
-//  }
-//
-//  // 정적 리소스(CSS, JS, Image 등) 경로 설정
-//  @Override
-//  public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//    registry.addResourceHandler("/css/**").addResourceLocations("/css/");
-//    registry.addResourceHandler("/js/**").addResourceLocations("/js/");
-//    registry.addResourceHandler("/images/**").addResourceLocations("/images/");
-//  }
-//
-//}

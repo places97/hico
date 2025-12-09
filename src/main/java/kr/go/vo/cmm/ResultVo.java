@@ -46,4 +46,10 @@ public class ResultVo {
         .resMsg(resCd.getMsg())
         .build();
   }
+
+  public void setSuccess(Object obj) {
+    this.data = data;
+    this.resCd = String.valueOf(ResCd.SUCCESS.getCode());
+    this.resMsg = String.valueOf(ResCd.SUCCESS.getMsg());
+  }
 }
