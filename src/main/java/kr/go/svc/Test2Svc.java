@@ -5,5 +5,7 @@ import kr.go.vo.Test2Vo;
 
 public interface Test2Svc {
 
-  public List<Test2Vo> getList(Test2Vo test2Vo);
+  public List<Test2Vo> getList();
+
+  Test2Vo getById(Long id);
 }

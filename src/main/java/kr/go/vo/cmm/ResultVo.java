@@ -48,7 +48,7 @@ public class ResultVo {
   }
 
   public void setSuccess(Object obj) {
-    this.data = data;
+    this.data = obj;
     this.resCd = String.valueOf(ResCd.SUCCESS.getCode());
     this.resMsg = String.valueOf(ResCd.SUCCESS.getMsg());
   }

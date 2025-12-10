@@ -2,6 +2,7 @@ package kr.go.config;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
@@ -29,10 +30,15 @@ public class SwaggerConfig {
         .groupName("00. ALL")
         .apiInfo(this.swaggerInfo())
         .select()
-        .apis(RequestHandlerSelectors.basePackage("kr.go.ctl")) // kr.go.ctl 패키지 내 API만 문서화
+        .apis(RequestHandlerSelectors.basePackage("kr.go.ctl"))
         .paths(PathSelectors.any())
+        .paths(regex("/api/.*"))
         .build()
-        .useDefaultResponseMessages(false); // 기본 응답 메시지 (200, 401, 403, 404) 표시 여부
+        .useDefaultResponseMessages(false) // 기본 응답 메시지 (200, 401, 403, 404) 표시 여부
+        //보안설정 추가
+        .securityContexts(Arrays.asList(securityContext()))
+        .securitySchemes(Arrays.asList(apiKey()));
+
   }
 
   @Bean
@@ -43,6 +49,7 @@ public class SwaggerConfig {
         .select()
         .paths(regex("/adm.*"))
         .build()
+        //보안설정 추가
         .securitySchemes(Collections.singletonList(apiKey()))
         .securityContexts(Collections.singletonList(securityContext()));
   }
@@ -66,8 +73,9 @@ public class SwaggerConfig {
   // 보안 컨텍스트 정의 (어떤 API에 이 보안 설정을 적용할지 정의)
   private SecurityContext securityContext() {
     return SecurityContext.builder()
-        .securityReferences(defaultAuth())
         .forPaths(PathSelectors.any())
+        //.forPaths(PathSelectors.regex("/api/.*"))
+        .securityReferences(defaultAuth())
         .build();
   }
 
@@ -77,6 +85,6 @@ public class SwaggerConfig {
     AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
     authorizationScopes[0] = authorizationScope;
     return Collections.singletonList(
-        new SecurityReference("JWT", authorizationScopes));
+        new SecurityReference("AccessToken", authorizationScopes));
   }
 }

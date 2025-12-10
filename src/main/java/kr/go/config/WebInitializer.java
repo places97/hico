@@ -2,15 +2,17 @@ package kr.go.config;
 
 import javax.servlet.Filter;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 // web.xml을 대체하여 Spring MVC 설정을 초기화
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
   // 1. Root Application Context 설정 (ContextLoaderListener 역할)
+  // ContextConfig (애플리케이션 전반 설정)와 SecurityConfig (보안 설정)를 함께 반환합니다.
   @Override
   protected Class<?>[] getRootConfigClasses() {
-    return new Class<?>[]{ContextConfig.class};
+    return new Class<?>[]{ContextConfig.class, SecurityConfig.class};
   }
 
   // 2. Servlet Context 설정 (DispatcherServlet의 init-param 역할)
@@ -29,6 +31,13 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
   @Override
   protected Filter[] getServletFilters() {
-    return new Filter[]{new CharacterEncodingFilter("UTF-8", true)};
+    CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter("UTF-8", true);
+
+    DelegatingFilterProxy securityFilter = new DelegatingFilterProxy();
+
+    // 스프링 시큐리티 필터 빈의 표준 이름인 'springSecurityFilterChain'을 명시적으로 설정
+    securityFilter.setTargetBeanName("springSecurityFilterChain");
+
+    return new Filter[]{characterEncodingFilter, securityFilter};
   }
 }

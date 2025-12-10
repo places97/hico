@@ -1,5 +1,6 @@
 package kr.go.dto.test;
 
+import io.swagger.annotations.ApiModelProperty;
 import kr.go.annotation.MaskData;
 import kr.go.vo.Test2Vo;
 import lombok.AllArgsConstructor;
@@ -15,18 +16,19 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ReqTestSelDto {
 
+  @ApiModelProperty(value = "사용자 고유 ID", required = true, example = "1")
   private Long id;
 
-  @MaskData(type = "NAME")
+  @ApiModelProperty(value = "이름", required = false, example = "홍길동")
   private String name;
 
-  @MaskData(type = "EMAIL")
+  @ApiModelProperty(value = "이메일", required = false, example = "hong.gildong@example.com")
   private String email;
 
-  @MaskData(type = "SSN")
+  @ApiModelProperty(value = "주민등록번호", required = false, example = "901231-1029485")
   private String ssn;
 
-  @MaskData(type = "PHONE")
+  @ApiModelProperty(value = "전화번호", required = false, example = "010-1234-5678")
   private String phone;
 
   /**
