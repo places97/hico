@@ -1,8 +1,5 @@
 package kr.go.hico.cmm.auth.web;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import java.util.HashMap;
 import java.util.Map;
 import kr.go.util.JwtTokenProvider;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
-@Api(tags = "인증 및 토큰 발급 API", description = "사용자 로그인 및 JWT 토큰 관리")
 public class AuthRestController {
 
   @Autowired
@@ -30,11 +26,8 @@ public class AuthRestController {
   JwtTokenProvider tokenProvider;
 
   @PostMapping("/login.do")
-  @ApiOperation(value = "사용자 로그인 및 JWT 토큰 발급", notes = "아이디와 비밀번호를 사용하여 인증하고 Access Token을 발급받습니다.")
   public ResponseEntity<ResultVo> authenticateUser(
-      @ApiParam(value = "사용자 아이디", required = true, example = "testuser")
       @RequestParam String username,
-      @ApiParam(value = "비밀번호", required = true, example = "1234")
       @RequestParam String password) {
 
     // 1. 사용자 인증 시도 (DB 조회 및 비밀번호 검증 포함)
