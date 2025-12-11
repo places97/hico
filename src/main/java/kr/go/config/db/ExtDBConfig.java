@@ -63,7 +63,7 @@ public class ExtDBConfig {
 
     // 2. XML 매퍼 파일 위치 설정
     PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-    factoryBean.setMapperLocations(resolver.getResources("classpath:/externalMapper/**/*.xml"));
+    factoryBean.setMapperLocations(resolver.getResources("classpath:/externalMapper/**/**/*.xml"));
 
     SqlSessionFactory externalSessionFactory = factoryBean.getObject();
     externalSessionFactory.getConfiguration().setMapUnderscoreToCamelCase(true);

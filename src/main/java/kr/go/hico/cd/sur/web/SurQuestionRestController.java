@@ -1,29 +1,30 @@
 package kr.go.hico.cd.sur.web;
 
 import java.util.List;
-import kr.go.hico.cd.sur.svc.SurveySvc;
+import kr.go.hico.cd.sur.service.SurQuestionService;
 import kr.go.hico.cmm.cmm.vo.ResultVo;
-import kr.go.hico.cd.sur.vo.SurveyVo;
+import kr.go.hico.cd.sur.vo.SurQuestionVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/sur")
+@RequestMapping("/surQuestion")
 @Slf4j
-public class SurveyRestCtl {
+public class SurQuestionRestController {
 
   @Autowired
-  private SurveySvc surveySvc;
+  private SurQuestionService surQuestionService;
 
-  @GetMapping("/list.do")
-  public ResponseEntity<ResultVo> list() {
+  @GetMapping("/selSurQuestionBySurId.do/{surId}")
+  public ResponseEntity<ResultVo> selSurQuestionBySurId(@PathVariable int surId) {
     ResultVo resultVo = new ResultVo();
 
-    List<SurveyVo> rst = surveySvc.getList();
+    List<SurQuestionVo> rst = surQuestionService.selSurQuestionBySurId(surId);
 
     resultVo.setSuccess(rst);
 

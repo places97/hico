@@ -2,7 +2,7 @@ package kr.go.hico.ts.test.web;
 
 import java.util.HashMap;
 import java.util.Map;
-import kr.go.hico.ts.test.svc.Test2Svc;
+import kr.go.hico.ts.test.service.Test2Service;
 import kr.go.hico.ts.test.vo.Test2Vo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/test2")
 @Slf4j
-public class Test2Ctl {
+public class Test2Controller {
 
     @Value("${spring.profiles.active}")
     private String activeProfile;
 
     @Autowired
-    private Test2Svc test2Svc;
+    private Test2Service test2Service;
 
     @RequestMapping("/page.do")
     public String page(Test2Vo test2Vo, Model model) {

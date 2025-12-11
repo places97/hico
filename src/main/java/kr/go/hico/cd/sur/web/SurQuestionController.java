@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/surQuestion")
 @Slf4j
-public class SurQuestionCtl {
+public class SurQuestionController {
 
 }

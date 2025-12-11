@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 @Api(tags = "인증 및 토큰 발급 API", description = "사용자 로그인 및 JWT 토큰 관리")
-public class AuthRestCtl {
+public class AuthRestController {
 
   @Autowired
   AuthenticationManager authenticationManager;

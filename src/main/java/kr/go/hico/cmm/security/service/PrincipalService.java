@@ -1,4 +1,4 @@
-package kr.go.hico.cmm.security.svc;
+package kr.go.hico.cmm.security.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service("principalSvc")
-public class PrincipalSvc implements UserDetailsService {
+public class PrincipalService implements UserDetailsService {
 
   /**
     * 사용자가 입력한 username(ID)을 기반으로 DB에서 사용자 상세 정보를 조회합니다.

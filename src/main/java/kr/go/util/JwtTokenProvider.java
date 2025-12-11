@@ -9,7 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
-import kr.go.hico.cmm.security.svc.PrincipalSvc;
+import kr.go.hico.cmm.security.service.PrincipalService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,12 +19,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider {
   private final Key key;
-  private final PrincipalSvc principalSvc;
+  private final PrincipalService principalService;
 
   // security.properties에서 시크릿 키 주입
-  public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, PrincipalSvc  principalSvc) {
+  public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, PrincipalService principalService) {
     this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-    this.principalSvc = principalSvc;
+    this.principalService = principalService;
   }
 
   // JWT 토큰 생성
@@ -72,7 +72,7 @@ public class JwtTokenProvider {
   // JWT 토큰으로부터 인증 객체 생성
   public Authentication getAuthentication(String token) {
     String username = getUsernameFromJWT(token);
-    UserDetails userDetails = principalSvc.loadUserByUsername(username);
+    UserDetails userDetails = principalService.loadUserByUsername(username);
     // AuthenticationManager 없이 인증 객체를 직접 생성
     return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
   }

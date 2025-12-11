@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
-import kr.go.hico.ts.test.svc.Test2Svc;
+import kr.go.hico.ts.test.service.Test2Service;
 import kr.go.hico.ts.test.vo.Test2Vo;
 import kr.go.hico.cmm.cmm.vo.ResultVo;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/test2")
 @Slf4j
 @Api(tags = "AOP 마스킹 테스트", description = "AOP 마스킹 테스트")
-public class Test2RestCtl {
+public class Test2RestController {
   @Value("${spring.profiles.active}")
   private String activeProfile;
 
   @Autowired
-  private Test2Svc test2Svc;
+  private Test2Service test2Service;
 
   @GetMapping("/selMask.do")
   @ApiOperation(value = "마스킹 목록 TEST", notes = "마스킹 목록 TEST")
@@ -35,7 +35,7 @@ public class Test2RestCtl {
 
     //vo 변환
     //Test2Vo test2Vo = dto.toVo();
-    List<Test2Vo> rst = test2Svc.getList();
+    List<Test2Vo> rst = test2Service.getList();
 
     resultVo.setData(rst);
 
@@ -49,7 +49,7 @@ public class Test2RestCtl {
       @PathVariable Long id) {
     ResultVo resultVo = new ResultVo();
 
-    Test2Vo rst = test2Svc.getById(id);
+    Test2Vo rst = test2Service.getById(id);
 
     resultVo.setSuccess(rst);
 

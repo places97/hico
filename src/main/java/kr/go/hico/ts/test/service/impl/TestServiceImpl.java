@@ -1,10 +1,11 @@
-package kr.go.hico.ts.test.svc;
+package kr.go.hico.ts.test.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import kr.go.annotation.PointInsert;
 import kr.go.hico.ts.test.externalMapper.ExtTestMapper;
 import kr.go.hico.ts.test.mapper.TestMapper;
+import kr.go.hico.ts.test.service.TestService;
 import kr.go.hico.ts.test.vo.TestVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class TestSvcImp implements TestSvc {
+public class TestServiceImpl implements TestService {
 
   @Autowired
   private TestMapper testMapper;

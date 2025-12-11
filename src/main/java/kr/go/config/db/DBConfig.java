@@ -68,7 +68,7 @@ public class DBConfig {
 
     // 2. XML 매퍼 파일 위치 설정
     PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-    factoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/**/*.xml"));
+    factoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/**/**/*.xml"));
 
     SqlSessionFactory sessionFactory = factoryBean.getObject();
     sessionFactory.getConfiguration().setMapUnderscoreToCamelCase(true);

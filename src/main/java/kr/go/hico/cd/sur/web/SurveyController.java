@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/sur")
 @Slf4j
-public class SurveyCtl {
+public class SurveyController {
 
   @RequestMapping("/page.do")
   public String page(SurveyVo surveyVo, Model model) {
@@ -24,7 +24,7 @@ public class SurveyCtl {
 
     model.addAttribute("dataSet", dataSet);
 
-    return "/sur/survey";
+    return "cd/sur/survey";
   }
 
 }
