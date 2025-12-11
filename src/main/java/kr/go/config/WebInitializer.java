@@ -34,8 +34,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter("UTF-8", true);
 
     DelegatingFilterProxy securityFilter = new DelegatingFilterProxy();
-
-    // 스프링 시큐리티 필터 빈의 표준 이름인 'springSecurityFilterChain'을 명시적으로 설정
     securityFilter.setTargetBeanName("springSecurityFilterChain");
 
     return new Filter[]{characterEncodingFilter, securityFilter};

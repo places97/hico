@@ -1,5 +1,7 @@
 package kr.go.hico.cmm.security.service;
 
+import kr.go.hico.cmm.security.vo.PrincipalDetails;
+import kr.go.hico.sm.user.vo.UserVo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,10 +36,13 @@ public class PrincipalService implements UserDetailsService {
 
     //final String ENCODED_1234 = "$2a$10$T1q/c2k4q1H.8Qv9z/7tQ.M.z.r.1fQ.q.q.q.q.q.q.q.q.q.q";
 
-    return org.springframework.security.core.userdetails.User.builder()
-        .username("testuser")
-        .password(encodedPassword)
-        .roles("USER", "ADMIN")
-        .build();
+    UserVo userVo = new UserVo();
+    userVo.setId(1L);
+    userVo.setName("홍길동");
+    userVo.setEmail("testuser");
+    userVo.setPhone("010-1234-5678");
+    userVo.setPassword(encodedPassword);
+
+    return new PrincipalDetails(userVo);
   }
 }
