@@ -20,6 +20,7 @@ public class HomeController {
 	  log.warn("spring init warn");
 	  log.error("spring init error");
 	  
+	  
     return "redirect:/home.do";
   }
 
