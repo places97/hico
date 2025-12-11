@@ -20,7 +20,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 @EnableWebMvc
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(
-    basePackages = {"kr.go.ctl", "kr.go.config"}
+    basePackages = {"kr.go.hico.*.*.web", "kr.go.config"}
 )
 
 public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {

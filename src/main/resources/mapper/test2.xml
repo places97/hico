@@ -1,6 +1,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.go.mapper.Test2Mapper">
+<mapper namespace="kr.go.hico.ts.test.mapper.Test2Mapper">
 
   <select id="getList" resultType="Test2Vo">
     SELECT id,

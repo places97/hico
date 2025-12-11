@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @PropertySource("classpath:properties/db/${spring.profiles.active}/jdbc.properties")
 @EnableTransactionManagement
-@MapperScan(basePackages = "kr.go.mapper"
+@MapperScan(basePackages = "kr.go.hico.*.*.mapper"
     //, sqlSessionFactoryRef = "innerDBSqlSessionFactory"
     , sqlSessionTemplateRef = "innerDBSqlSessionTemplate")
 public class DBConfig {
@@ -64,7 +64,7 @@ public class DBConfig {
     SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 
     factoryBean.setDataSource(innerDataSource);
-    factoryBean.setTypeAliasesPackage("kr.go.vo");
+    factoryBean.setTypeAliasesPackage("kr.go.hico.*.*.vo");
 
     // 2. XML 매퍼 파일 위치 설정
     PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();

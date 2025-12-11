@@ -1,6 +1,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.go.mapper.sur.SurQuestionMapper">
+<mapper namespace="kr.go.hico.cd.sur.mapper.SurQuestionMapper">
 
   <sql id="Columns">
     , ${ta}sur_qst_id ${ca}sur_qst_id

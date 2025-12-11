@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @PropertySource("classpath:properties/db/${spring.profiles.active}/jdbc.properties")
 @EnableTransactionManagement
-@MapperScan(basePackages = "kr.go.externalMapper"
+@MapperScan(basePackages = "kr.go.hico.*.*.externalMapper"
     //, sqlSessionFactoryRef = "externalDBSqlSessionFactory"
     , sqlSessionTemplateRef = "externalDBSqlSessionTemplate")
 public class ExtDBConfig {
@@ -59,7 +59,7 @@ public class ExtDBConfig {
     SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 
     factoryBean.setDataSource(externalDataSource);
-    factoryBean.setTypeAliasesPackage("kr.go.vo");
+    factoryBean.setTypeAliasesPackage("kr.go.hico.*.*.vo");
 
     // 2. XML 매퍼 파일 위치 설정
     PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();

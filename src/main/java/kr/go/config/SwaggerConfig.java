@@ -26,11 +26,12 @@ public class SwaggerConfig {
 
   @Bean
   public Docket swaggerApi() {
+
     return new Docket(DocumentationType.SWAGGER_2)
         .groupName("00. ALL")
         .apiInfo(this.swaggerInfo())
         .select()
-        .apis(RequestHandlerSelectors.basePackage("kr.go.ctl"))
+        .apis(RequestHandlerSelectors.basePackage("kr.go.hico"))
         .paths(PathSelectors.any())
         .paths(regex("/api/.*"))
         .build()

@@ -2,7 +2,7 @@ package kr.go.exception;
 
 import java.io.IOException;
 import kr.go.enums.ResCd;
-import kr.go.vo.cmm.ResultVo;
+import kr.go.hico.cmm.cmm.vo.ResultVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
