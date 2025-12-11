@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Controller;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
+@PropertySource("classpath:/egovProps/global.properties")
 @ComponentScan(
-    basePackages = {"kr.go.hico.*.*.svc", "kr.go.aspect", "kr.go.annotation", "kr.go.exception", "kr.go.util", "kr.go.config"},
+    basePackages = {"kr.go.hico.*.*.svc", "kr.go.aspect", "kr.go.annotation", "kr.go.exception",
+        "kr.go.util", "kr.go.config"},
     excludeFilters = {
         @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Controller.class),
         @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = RestController.class)
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 )
 @Import({DBConfig.class, ExtDBConfig.class})
 public class ContextConfig {
+
   // 💡 AccessDeniedHandler 빈을 루트 컨텍스트에 등록
   @Bean
   public AccessDeniedHandler accessDeniedHandler() {
