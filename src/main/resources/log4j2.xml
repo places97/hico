@@ -7,41 +7,29 @@
   </Appenders>
 
   <Loggers>
-    <Logger name="jdbc.sqlonly" level="DEBUG" additivity="false">
+    <Logger name="jdbc.sqlonly" level="DEBUG" additivity="true">
       <AppenderRef ref="console"/>
     </Logger>
 
-    <Logger name="jdbc.sqltiming" level="INFO" additivity="false">
+    <Logger name="jdbc.sqltiming" level="DEBUG" additivity="true">
       <AppenderRef ref="console"/>
     </Logger>
-
-    <Logger name="jdbc.audit" level="INFO" additivity="false">
+    
+    <Logger name="jdbc.audit" level="ERROR" additivity="true">
       <AppenderRef ref="console"/>
     </Logger>
-
-    <Logger name="java.sql" level="INFO" additivity="false">
+    
+    <Logger name="java.sql" level="DEBUG" additivity="true">
       <AppenderRef ref="console"/>
     </Logger>
-
-    <Logger name="kr.go.mapper" level="DEBUG" additivity="false">
+    
+    <Logger name="kr.go.hico" level="INFO" additivity="false">
       <AppenderRef ref="console"/>
     </Logger>
-
-    <Logger name="kr.go.externalMapper" level="DEBUG" additivity="false">
-      <AppenderRef ref="console"/>
-    </Logger>
-
-    <Logger name="kr.go.svc" level="DEBUG" additivity="false">
-      <AppenderRef ref="console"/>
-    </Logger>
-
-    <Logger name="kr.go.ctl" level="DEBUG" additivity="false">
-      <AppenderRef ref="console"/>
-    </Logger>
-
-
-    <Root level="INFO">
+    
+    <Root level="ERROR">
       <AppenderRef ref="console"/>
     </Root>
+    
   </Loggers>
 </Configuration>
