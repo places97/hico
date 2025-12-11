@@ -67,6 +67,7 @@ public class SecurityConfig {
             .requestMatchers(new AntPathRequestMatcher("/home.do")).permitAll()
             // 정적 리소스 및 Swagger
             .requestMatchers(
+                new AntPathRequestMatcher("/**/*"), //TEST
                 new AntPathRequestMatcher("/css/**"),
                 new AntPathRequestMatcher("/js/**"),
                 new AntPathRequestMatcher("/images/**"),
