@@ -17,13 +17,13 @@ public class PropertyConfig {
     PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
 
     // 1. JVM 시스템 속성에서 'active' 값을 먼저 확인합니다. (IntelliJ 설정값)
-    String activeProfile = System.getProperty("globals.active"); // -> 여기서 "dev"가 로드되어야 함!
+    String activeProfile = System.getProperty("globals.active");
 
     // 2. 만약 시스템 속성에서 값이 없다면 (null이거나 비어있다면), globals.properties 파일을 로드합니다.
     if (activeProfile == null || activeProfile.isEmpty()) {
       Resource globalsResource = new ClassPathResource("properties/globals.properties");
       Properties globalsProps = PropertiesLoaderUtils.loadProperties(globalsResource);
-      activeProfile = globalsProps.getProperty("active"); // -> 시스템 속성 없을 경우 'local'을 읽게 됨
+      activeProfile = globalsProps.getProperty("active");
     }
 
     if (activeProfile == null || activeProfile.isEmpty()) {
