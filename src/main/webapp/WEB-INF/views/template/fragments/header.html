@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="www.thymeleaf.org"
       th:fragment="HeaderFragment">
 
 <head>
@@ -40,6 +41,47 @@
 </head>
 
 <body>
+
+<th:block th:fragment="script">
+  <!-- 💡 _csrf 객체가 널이 아닐 때만 스크립트 실행 -->
+  <script th:if="${_csrf != null}" type="text/javascript">
+    $(document).ready(function () {
+      $('#logout').on('click', function(event) {
+        event.preventDefault(); // 기본 링크 동작 방지
+        $('#logoutFormHeader').submit();
+      });
+    });
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      fnAddEvent();
+    });
+
+    function fnAddEvent() {
+      $('#logout').on('click', fnLogout);
+    }
+
+    // 💡 로그아웃 함수 구현
+    function fnLogout(event) {
+      event.preventDefault(); // 기본 이벤트(링크 이동 등) 방지
+
+      var $logoutForm = $('#logoutForm');
+
+      // 💡 로그아웃 폼에 CSRF 토큰 동적 추가
+      // Thymeleaf 변수가 window 객체에 저장되어 있을 경우에만 실행
+      if (window.csrfParameterName && window.csrfToken) {
+        // 숨겨진 input 필드를 폼에 추가
+        $logoutForm.append('<input type="hidden" name="' + window.csrfParameterName + '" value="' + window.csrfToken + '" />');
+      }
+
+      // 폼 제출 로직
+      $logoutForm.submit();
+    }
+
+  </script>
+</th:block>
+
 <header th:fragment="HeaderFragment">
   <div class="logo">
     🌐 MY HICO
@@ -49,8 +91,20 @@
     <a href="/home.do">홈</a>
     <a href="/test/page.do">서비스</a>
     <a href="#">고객센터</a>
-    <a href="#">로그인</a>
+    <!-- 로그인/로그아웃 링크 수정 -->
+    <a sec:authorize="isAnonymous()" href="/login/loginForm.do">로그인</a>
+
+    <!-- 💡 ID를 추가하여 JS에서 이벤트 바인딩 -->
+    <a sec:authorize="isAuthenticated()" href="#" id="logout" class="logout-link">로그아웃</a>
+
+    <a sec:authorize="hasRole('ADMIN')" href="/admin/test/list.do">관리자</a>
   </nav>
+
+  <div sec:authorize="isAuthenticated()">
+    <form id="logoutFormHeader" action="/logout.do" method="post" style="display: none;">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    </form>
+  </div>
 </header>
 </body>
 

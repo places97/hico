@@ -5,14 +5,14 @@ Tomcat Run Edit 설정
 ### Intellij 설정 : 
 1. Run -> Edit Configurations.. 
 2. Add Server -> Tomcat 8.5.99
-3. VM Option : -Dfile.encoding=UTF-8 -Dspring.profiles.active=local
+3. VM Option : -Dfile.encoding=UTF-8
 4. Deployment 이동 -> add Artifact -> war exploded -> Application context : /
 
 
 ### eclipse 설정 :
 1. .setting/org.eclipse.wst.common.project.facet.core 의 jst.web 버전 3.1로 변경
 2. Servers -> Tomcat 8.5 연결
-3. 프로젝트의 run configuration -> arguments -> VM arguments 의 -Dfile.encoding=UTF-8 -Dspring.profiles.active=local 추가
+3. 프로젝트의 run configuration -> arguments -> VM arguments 의 -Dfile.encoding=UTF-8
 
 ----
 

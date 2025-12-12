@@ -1,0 +1,24 @@
+package kr.go.hico.cmm.login.web;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+@RequestMapping("/login")
+public class LoginController {
+
+  /**
+   * 로그인 화면
+   */
+  @GetMapping("/loginForm.do")
+    public String loginForm(@RequestParam(value = "error", required = false) String error, Model model)
+    {
+      if (error != null) {
+        model.addAttribute("errorMessage", "아이디 또는 비밀번호가 올바르지 않습니다.");
+      }
+      return "login/loginForm";
+    }
+  }

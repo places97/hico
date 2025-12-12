@@ -20,10 +20,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Slf4j
 @Configuration
-@PropertySource("classpath:properties/db/${spring.profiles.active}/jdbc.properties")
 @EnableTransactionManagement
 @MapperScan(basePackages = "kr.go.hico.*.*.mapper"
-    //, sqlSessionFactoryRef = "innerDBSqlSessionFactory"
     , sqlSessionTemplateRef = "innerDBSqlSessionTemplate")
 public class DBConfig {
 
@@ -68,7 +66,7 @@ public class DBConfig {
 
     // 2. XML 매퍼 파일 위치 설정
     PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-    factoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/**/*.xml"));
+    factoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/**/**/*.xml"));
 
     SqlSessionFactory sessionFactory = factoryBean.getObject();
     sessionFactory.getConfiguration().setMapUnderscoreToCamelCase(true);
