@@ -7,23 +7,24 @@
   </Appenders>
 
   <Loggers>
-    <Logger name="jdbc.sqlonly" level="DEBUG" additivity="true">
+    <Logger name="jdbc.sqlonly" level="DEBUG" additivity="false">
       <AppenderRef ref="console"/>
     </Logger>
 
-    <Logger name="jdbc.sqltiming" level="DEBUG" additivity="true">
+    <Logger name="jdbc.sqltiming" level="DEBUG" additivity="false">
       <AppenderRef ref="console"/>
     </Logger>
     
-    <Logger name="jdbc.audit" level="ERROR" additivity="true">
+    <Logger name="jdbc.audit" level="ERROR" additivity="false">
       <AppenderRef ref="console"/>
     </Logger>
     
-    <Logger name="java.sql" level="DEBUG" additivity="true">
+    <Logger name="java.sql" level="DEBUG" additivity="false">
       <AppenderRef ref="console"/>
     </Logger>
     
-    <Logger name="kr.go.hico" level="INFO" additivity="false">
+    <!-- Application Log-->
+    <Logger name="kr.go" level="INFO" additivity="false">
       <AppenderRef ref="console"/>
     </Logger>
     
