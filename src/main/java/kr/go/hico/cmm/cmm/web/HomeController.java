@@ -1,23 +1,15 @@
 package kr.go.hico.cmm.cmm.web;
 
 import lombok.extern.slf4j.Slf4j;
-<<<<<<< HEAD:src/main/java/kr/go/hico/cmm/cmm/web/HomeCtl.java
-=======
 import org.springframework.beans.factory.annotation.Value;
->>>>>>> origin/main:src/main/java/kr/go/hico/cmm/cmm/web/HomeController.java
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Slf4j
 @Controller
-<<<<<<< HEAD:src/main/java/kr/go/hico/cmm/cmm/web/HomeCtl.java
-public class HomeCtl {
-=======
 @Slf4j
 public class HomeController {
->>>>>>> origin/main:src/main/java/kr/go/hico/cmm/cmm/web/HomeController.java
 
 	//private static final Logger logger = LoggerFactory.getLogger(HomeController.class)
 

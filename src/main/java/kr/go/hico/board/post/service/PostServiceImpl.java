@@ -1,0 +1,30 @@
+package kr.go.hico.board.post.service;
+
+import java.util.List;
+import kr.go.hico.board.post.mapper.PostMapper;
+import kr.go.hico.board.post.vo.PostVo;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+@Slf4j
+public class PostServiceImpl implements PostService {
+
+  @Autowired
+  private PostMapper postMapper;
+
+  @Override
+  public List<PostVo> getPostListByBoardId(Long boardId) {
+
+    List<PostVo> postVoList;
+    postVoList = postMapper.getPostListByBoardId(boardId);
+
+    return postVoList;
+  }
+
+  @Override
+  public PostVo getPostById(Long postId) {
+    return null;
+  }
+}

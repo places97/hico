@@ -29,6 +29,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 //    return new String[]{"*.do"};
   }
 
+  // 3. Spring Security 설정
   @Override
   protected Filter[] getServletFilters() {
     CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter("UTF-8", true);
@@ -38,4 +39,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     return new Filter[]{characterEncodingFilter, securityFilter};
   }
+
+  // 4. JackSon 설정
+  
 }

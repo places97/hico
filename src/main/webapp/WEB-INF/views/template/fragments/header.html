@@ -37,7 +37,6 @@
       opacity: 0.8;
     }
   </style>
-
 </head>
 
 <body>
@@ -46,7 +45,7 @@
   <!-- 💡 _csrf 객체가 널이 아닐 때만 스크립트 실행 -->
   <script th:if="${_csrf != null}" type="text/javascript">
     $(document).ready(function () {
-      $('#logout').on('click', function(event) {
+      $('#logout').on('click', function (event) {
         event.preventDefault(); // 기본 링크 동작 방지
         $('#logoutFormHeader').submit();
       });
@@ -72,7 +71,8 @@
       // Thymeleaf 변수가 window 객체에 저장되어 있을 경우에만 실행
       if (window.csrfParameterName && window.csrfToken) {
         // 숨겨진 input 필드를 폼에 추가
-        $logoutForm.append('<input type="hidden" name="' + window.csrfParameterName + '" value="' + window.csrfToken + '" />');
+        $logoutForm.append('<input type="hidden" name="' + window.csrfParameterName + '" value="'
+            + window.csrfToken + '" />');
       }
 
       // 폼 제출 로직
@@ -89,6 +89,7 @@
 
   <nav>
     <a href="/home.do">홈</a>
+    <a href="/board.do">게시판</a>
     <a href="/test/page.do">서비스</a>
     <a href="#">고객센터</a>
     <!-- 로그인/로그아웃 링크 수정 -->
@@ -102,7 +103,7 @@
 
   <div sec:authorize="isAuthenticated()">
     <form id="logoutFormHeader" action="/logout.do" method="post" style="display: none;">
-      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     </form>
   </div>
 </header>

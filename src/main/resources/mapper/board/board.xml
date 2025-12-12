@@ -1,0 +1,19 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.go.hico.board.board.mapper.BoardMapper">
+
+	<select id="getBoardList" resultType="kr.go.hico.board.board.vo.BoardVo">
+		SELECT
+				board_id
+			, auth_id
+			, board_nm   AS board_name
+			, board_desc AS board_description
+			, use_yn
+			, created_at
+			, updated_at
+			, writer_id
+			, writer_nm  AS writer_name
+			FROM
+				board
+	</select>
+</mapper>
