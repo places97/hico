@@ -21,5 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 )
 @Import({DBConfig.class, ExtDBConfig.class})
 public class ContextConfig {
-
+  @Bean
+  public static PropertyConfig egovPropertyConfig() {
+    return new PropertyConfig();
+  }
 }

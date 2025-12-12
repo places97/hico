@@ -20,10 +20,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Slf4j
 @Configuration
-@PropertySource("classpath:properties/db/${spring.profiles.active}/jdbc.properties")
 @EnableTransactionManagement
 @MapperScan(basePackages = "kr.go.hico.*.*.mapper"
-    //, sqlSessionFactoryRef = "innerDBSqlSessionFactory"
     , sqlSessionTemplateRef = "innerDBSqlSessionTemplate")
 public class DBConfig {
 

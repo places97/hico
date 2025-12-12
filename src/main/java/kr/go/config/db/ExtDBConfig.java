@@ -17,10 +17,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@PropertySource("classpath:properties/db/${spring.profiles.active}/jdbc.properties")
 @EnableTransactionManagement
 @MapperScan(basePackages = "kr.go.hico.*.*.externalMapper"
-    //, sqlSessionFactoryRef = "externalDBSqlSessionFactory"
     , sqlSessionTemplateRef = "externalDBSqlSessionTemplate")
 public class ExtDBConfig {
 
