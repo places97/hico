@@ -36,16 +36,33 @@ public class SecurityConfig {
         // CSRF 설정 (필요에 따라 disable 또는 enable)
         //.csrf(csrf -> csrf.disable())
         // 세션 기반 방식에서 POST 요청을 보낼 때 필수적인 CSRF 토큰을 숨겨진 필드로 헤더에 포함
-        .csrf(withDefaults()) // 방어 활성화
-        // 💡 세션 사용 안 함 설정 (Stateless)
-        //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
+        .csrf(withDefaults())
+        /* csrf 제외
+          .csrf(csrf -> csrf
+              // SSO 콜백 URL이나 외부에서 POST 요청이 들어오는 특정 URL을 제외
+              //.ignoringRequestMatchers("/sso/url")
+              //.ignoringRequestMatchers("/login.do") // 로그인 처리 URL
+        )
+        */
+        /* 💡 세션 사용 설정
+        .sessionManagement(session -> session
+            .sessionFixation(sessionFixation -> sessionFixation.migrateSession()) // 권장 기본값
+            // .maximumSessions(1) // 1명만 동시 접속 허용
+            // .maxSessionsPreventsLogin(true) // 동시 접속 시 기존 사용자 로그아웃 처리
+        )
+        */
         // URL 별 권한 설정
         .authorizeHttpRequests(authorize -> authorize
             // 메인화면..개발용
             .requestMatchers(new AntPathRequestMatcher("/home.do")).permitAll()
+            // 관리자
+            .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole("ADMIN")
             // 로그인
             .requestMatchers(new AntPathRequestMatcher("/login/**")).permitAll()
+            // 외부망
+            //.requestMatchers(new AntPathRequestMatcher("/public/**")).permitAll()
+            // 마이페이지
+            // .requestMatchers(new AntPathRequestMatcher("/mypage/**")).hasRole("USER")
             // 정적 리소스 및 Swagger
             .requestMatchers(
                 new AntPathRequestMatcher("/**/*"), //TEST

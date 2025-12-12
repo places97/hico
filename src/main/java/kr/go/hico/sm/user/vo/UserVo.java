@@ -36,4 +36,6 @@ public class UserVo {
 
   private String password;
 
+  private String authCd;
+
 }

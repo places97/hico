@@ -46,10 +46,8 @@
   <!-- 💡 _csrf 객체가 널이 아닐 때만 스크립트 실행 -->
   <script th:if="${_csrf != null}" type="text/javascript">
     $(document).ready(function () {
-      // #logout ID를 가진 요소에 클릭 이벤트 바인딩
       $('#logout').on('click', function(event) {
         event.preventDefault(); // 기본 링크 동작 방지
-        // 숨겨진 폼 제출
         $('#logoutFormHeader').submit();
       });
     });
@@ -98,9 +96,10 @@
 
     <!-- 💡 ID를 추가하여 JS에서 이벤트 바인딩 -->
     <a sec:authorize="isAuthenticated()" href="#" id="logout" class="logout-link">로그아웃</a>
+
+    <a sec:authorize="hasRole('ADMIN')" href="/admin/test/list.do">관리자</a>
   </nav>
 
-  <!-- 💡 이 부분이 isAuthenticated() 안에 있는지 확인 (이전 답변 참조) -->
   <div sec:authorize="isAuthenticated()">
     <form id="logoutFormHeader" action="/logout.do" method="post" style="display: none;">
       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
