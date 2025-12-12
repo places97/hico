@@ -2,6 +2,7 @@ package kr.go.config;
 
 import kr.go.config.db.DBConfig;
 import kr.go.config.db.ExtDBConfig;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
