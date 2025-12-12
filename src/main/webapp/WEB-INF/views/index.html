@@ -55,76 +55,85 @@
 
   <!-- 기존 JS 동일 ↓ -->
   <script type="text/javascript">
-    $(document).ready(function () {
-      fnAddEvent();
-    });
-
-    function fnAddEvent() {
-      $('#btn').on('click', fnRegister);
-      $('#reset').on('click', fnReset);
-      $('#sel').on('click', fnList);
-      $('#err').on('click', fnErr);
-    }
-
-    function fnMove(url) {
-        window.location.href = url;
-    }
-
-    function fnRegister() {
-      let result = $('#ipt').val();
-      $('#rst').val(result);
-    }
-
-    function fnReset() {
-      $('#rst').val("");
-    }
-
-    function fnList() {
-      $.ajax({
-        url: '/test/list.do',
-        type: 'GET',
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        data: {},
-        success: function (response) {
-          var dataList = response.data;
-          fnRenderTable(dataList);
-        },
-        error: function (response) {
-          var errorResultVo = JSON.parse(response.responseText);
-          alert("에러 발생: " + errorResultVo.resMsg);
-        }
-      });
-    }
-
-    function fnRenderTable(dataList) {
-      let $tbody = $('#data-table tbody');
-      $tbody.empty();
-
-      if (dataList?.length > 0) {
-        let template = $.templates("#dataRowTmpl");
-        let htmlOutput = template.render(dataList);
-        $tbody.append(htmlOutput);
-      } else {
-        $tbody.append('<tr><td colspan="3" class="no-data">조회된 데이터가 없습니다.</td></tr>');
+    const indexScript = (function () {
+      function init() {
+        fnAddEvent();
       }
-    }
 
-    function fnErr() {
-      $.ajax({
-        url: '/test/error-test.do',
-        type: 'GET',
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        timeout: 120000,
-        success: function () {
-        },
-        error: function (response) {
-          var errorResultVo = JSON.parse(response.responseText);
-          alert("에러 발생: " + errorResultVo.resMsg);
+      function fnAddEvent() {
+        $('#btn').on('click', fnRegister);
+        $('#reset').on('click', fnReset);
+        $('#sel').on('click', fnList);
+        $('#err').on('click', fnErr);
+      }
+
+      function fnMove(url) {
+          window.location.href = url;
+      }
+
+      function fnRegister() {
+        let result = $('#ipt').val();
+        $('#rst').val(result);
+      }
+
+      function fnReset() {
+        $('#rst').val("");
+      }
+
+      function fnList() {
+        $.ajax({
+          url: '/test/list.do',
+          type: 'GET',
+          dataType: 'json',
+          contentType: 'application/json; charset=utf-8',
+          data: {},
+          success: function (response) {
+            var dataList = response.data;
+            fnRenderTable(dataList);
+          },
+          error: function (response) {
+            var errorResultVo = JSON.parse(response.responseText);
+            alert("에러 발생: " + errorResultVo.resMsg);
+          }
+        });
+      }
+
+      function fnRenderTable(dataList) {
+        let $tbody = $('#data-table tbody');
+        $tbody.empty();
+
+        if (dataList?.length > 0) {
+          let template = $.templates("#dataRowTmpl");
+          let htmlOutput = template.render(dataList);
+          $tbody.append(htmlOutput);
+        } else {
+          $tbody.append('<tr><td colspan="3" class="no-data">조회된 데이터가 없습니다.</td></tr>');
         }
-      });
-    }
+      }
+
+      function fnErr() {
+        $.ajax({
+          url: '/test/error-test.do',
+          type: 'GET',
+          dataType: 'json',
+          contentType: 'application/json; charset=utf-8',
+          timeout: 120000,
+          success: function () {
+          },
+          error: function (response) {
+            var errorResultVo = JSON.parse(response.responseText);
+            alert("에러 발생: " + errorResultVo.resMsg);
+          }
+        });
+      }
+      return {
+        init: init
+      };
+    })();
+
+    $(function() {
+        indexScript.init();
+    });
   </script>
 </th:block>
 
