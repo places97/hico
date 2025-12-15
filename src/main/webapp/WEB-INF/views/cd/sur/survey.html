@@ -10,6 +10,7 @@
     <div class="form-area">
       <button class="btn" onclick="window.history.back()">뒤로</button>
       <button class="btn" id="sel">조회</button>
+      <button class="btn" id="tran">트랜잭션 테스트</button>
     </div>
     <h3 style="margin-top: 20px; margin-bottom:10px;">설문지 목록</h3>
 
@@ -70,84 +71,109 @@
       </script>
 
       <script type="text/javascript">
-
-        $(document).ready(function () {
-          fnAddEvent();
-        });
-
-        function fnAddEvent() {
-          $('#sel').on('click', fnList);
-          $('#data-table > tbody').on('click','tr',fnDetailGrid)
-        }
-        function fnDetailGrid() {
-          if ($(this).data("isEmpty"))
-            return;
-
-          var surId = $(this).data('surId');
-          fnDetail(surId)
-          // var detailUrl = '/sur/detailPage.do?surId=' + surId;
-          // window.open(detailUrl, 'surveyDetail', 'width=800, height=600, scrollbars=yes, resizable=yes');
-        }
-
-        function fnList() {
-          $.ajax({
-            url: '/sur/list.do',
-            type: 'GET',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            data: {},
-            success: function (response) {
-              var dataSet = response.data;
-              fnRenderTable(dataSet);
-            },
-            error: function (response) {
-              var errorResultVo = JSON.parse(response.responseText);
-              alert("에러 발생: " + errorResultVo.resMsg);
-            }
-          });
-        }
-        function fnDetail(surId) {
-          $.ajax({
-            url: '/surQuestion/selSurQuestionBySurId.do/'+surId,
-            type: 'GET',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            data: {},
-            success: function (response) {
-              var dataSetDetail = response.data;
-              fnRenderDetailTable(dataSetDetail);
-            },
-            error: function (response) {
-              var errorResultVo = JSON.parse(response.responseText);
-              alert("에러 발생: " + errorResultVo.resMsg);
-            }
-          });
-        }
-
-        function fnRenderTable(dataList) {
-          let $tbody = $('#data-table tbody');
-          $tbody.empty();
-
-          if (dataList?.length > 0) {
-            let template = $.templates("#dataRowTmpl");
-            let htmlOutput = template.render(dataList);
-            $tbody.append(htmlOutput);
-          } else {
-            $tbody.append('<tr><td colspan="5" class="no-data">조회된 데이터가 없습니다.</td></tr>');
+        const surveyIndex = (function() {
+          function init() {
+            fnAddEvent();
           }
-        }
-        function fnRenderDetailTable(dataList) {
-          let $tbody = $('#data-table-dtl tbody');
-          $tbody.empty();
-
-          if (dataList?.length > 0) {
-            let template = $.templates("#dataRowTmplDtl");
-            let htmlOutput = template.render(dataList);
-            $tbody.append(htmlOutput);
-          } else {
-            $tbody.append('<tr><td colspan="5" class="no-data">조회된 데이터가 없습니다.</td></tr>');
+          function fnAddEvent() {
+            $('#sel').on('click', fnList);
+            $('#data-table > tbody').on('click','tr',fnDetailGrid)
+            $('#tran').on('click',fnTest)
           }
-        }
+          function fnTest() {
+            $.ajax({
+              url: '/sur/transaction.do',
+              type: 'POST',
+              dataType: 'json',
+              contentType: 'application/json; charset=utf-8',
+              data: {},
+              success: function (response) {
+                var dataSet = response.data;
+                console.log("dataSet :::: ",dataSet);
+              },
+              error: function (response) {
+                var errorResultVo = JSON.parse(response.responseText);
+                alert("에러 발생: " + errorResultVo.resMsg);
+              }
+            });
+          }
+          function fnDetailGrid() {
+            if ($(this).data("isEmpty"))
+              return;
+
+            var surId = $(this).data('surId');
+            fnDetail(surId)
+            // var detailUrl = '/sur/detailPage.do?surId=' + surId;
+            // window.open(detailUrl, 'surveyDetail', 'width=800, height=600, scrollbars=yes, resizable=yes');
+          }
+
+          function fnList() {
+            $.ajax({
+              url: '/sur/list.do',
+              type: 'GET',
+              dataType: 'json',
+              contentType: 'application/json; charset=utf-8',
+              data: {},
+              success: function (response) {
+                var dataSet = response.data;
+                fnRenderTable(dataSet);
+              },
+              error: function (response) {
+                var errorResultVo = JSON.parse(response.responseText);
+                alert("에러 발생: " + errorResultVo.resMsg);
+              }
+            });
+          }
+          function fnDetail(surId) {
+            $.ajax({
+              url: '/surQuestion/selSurQuestionBySurId.do/'+surId,
+              type: 'GET',
+              dataType: 'json',
+              contentType: 'application/json; charset=utf-8',
+              data: {},
+              success: function (response) {
+                var dataSetDetail = response.data;
+                fnRenderDetailTable(dataSetDetail);
+              },
+              error: function (response) {
+                var errorResultVo = JSON.parse(response.responseText);
+                alert("에러 발생: " + errorResultVo.resMsg);
+              }
+            });
+          }
+
+          function fnRenderTable(dataList) {
+            let $tbody = $('#data-table tbody');
+            $tbody.empty();
+
+            if (dataList?.length > 0) {
+              let template = $.templates("#dataRowTmpl");
+              let htmlOutput = template.render(dataList);
+              $tbody.append(htmlOutput);
+            } else {
+              $tbody.append('<tr><td colspan="5" class="no-data">조회된 데이터가 없습니다.</td></tr>');
+            }
+          }
+          function fnRenderDetailTable(dataList) {
+            let $tbody = $('#data-table-dtl tbody');
+            $tbody.empty();
+
+            if (dataList?.length > 0) {
+              let template = $.templates("#dataRowTmplDtl");
+              let htmlOutput = template.render(dataList);
+              $tbody.append(htmlOutput);
+            } else {
+              $tbody.append('<tr><td colspan="5" class="no-data">조회된 데이터가 없습니다.</td></tr>');
+            }
+          }
+          return {
+            init: init
+          };
+        })();
+        $(function() {
+          surveyIndex.init();
+        })
+
       </script>
     </th:block>
   </div>

@@ -5,4 +5,6 @@ import kr.go.hico.cd.sur.vo.SurveyVo;
 
 public interface SurveyService {
   public List<SurveyVo> getList();
+
+  public List<SurveyVo> transactionTest();
 }

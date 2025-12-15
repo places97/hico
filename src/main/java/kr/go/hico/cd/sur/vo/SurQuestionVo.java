@@ -16,8 +16,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public class SurQuestionVo {
 
-  private int surQstId;
-  private int surId;
+  private Long surQstId;
+  private Long surId;
   private String title;
   private String capabilitieCd;
   private String capabilitieDtlCd;

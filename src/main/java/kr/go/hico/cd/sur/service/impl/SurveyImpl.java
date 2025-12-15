@@ -19,4 +19,16 @@ public class SurveyImpl implements SurveyService {
   public List<SurveyVo> getList() {
     return surveyMapper.getList();
   }
+
+  @Override
+  public List<SurveyVo> transactionTest() {
+
+    SurveyVo innerSurveyVo = new SurveyVo();
+    innerSurveyVo.setTitle("innnner");
+    innerSurveyVo.setTargetCd("innerCode");
+
+    surveyMapper.transactionTest(innerSurveyVo);
+
+    return List.of();
+  }
 }
