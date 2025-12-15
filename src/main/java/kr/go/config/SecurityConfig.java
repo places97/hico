@@ -1,7 +1,5 @@
 package kr.go.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,8 +16,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
   @Bean // AuthenticationManager 빈 등록 (로그인 API에서 사용)
-  public AuthenticationManager authenticationManager(
-      AuthenticationConfiguration authenticationConfiguration) throws Exception {
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
   }
 
@@ -37,14 +34,12 @@ public class SecurityConfig {
         // CSRF 설정 (필요에 따라 disable 또는 enable)
         //.csrf(csrf -> csrf.disable())
         // 세션 기반 방식에서 POST 요청을 보낼 때 필수적인 CSRF 토큰을 숨겨진 필드로 헤더에 포함
-        .csrf(withDefaults())
-        /* csrf 제외
-          .csrf(csrf -> csrf
-              // SSO 콜백 URL이나 외부에서 POST 요청이 들어오는 특정 URL을 제외
-              //.ignoringRequestMatchers("/sso/url")
-              //.ignoringRequestMatchers("/login.do") // 로그인 처리 URL
+        //csrf 제외
+        .csrf(csrf -> csrf
+            // SSO 콜백 URL이나 외부에서 POST 요청이 들어오는 특정 URL을 제외
+            .ignoringRequestMatchers(new AntPathRequestMatcher("/login.do"))
+            //.ignoringRequestMatchers(new AntPathRequestMatcher("/sso/url"))
         )
-        */
         /* 💡 세션 사용 설정
         .sessionManagement(session -> session
             .sessionFixation(sessionFixation -> sessionFixation.migrateSession()) // 권장 기본값
