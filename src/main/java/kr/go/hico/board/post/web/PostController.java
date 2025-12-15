@@ -1,5 +1,6 @@
 package kr.go.hico.board.post.web;
 
+import kr.go.hico.board.post.vo.PostRequestVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import java.util.List;
@@ -10,8 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/post")
@@ -21,8 +23,8 @@ public class PostController {
   @Autowired
   private PostService postService;
 
-  @GetMapping("/list.do")
-  public ResponseEntity<ResultVo> list(Long boardId) {
+  @PostMapping("/list.do")
+  public ResponseEntity<ResultVo> list(@RequestBody Long boardId) {
     ResultVo resultVo = new ResultVo();
 
     List<PostVo> rst = postService.getPostListByBoardId(boardId);
@@ -31,11 +33,11 @@ public class PostController {
     return ResponseEntity.ok(resultVo);
   }
 
-  @GetMapping("/detail.do")
-  public String getPostDetail(@RequestParam("id") Long postId, Model model) {
-    PostVo postVo = postService.getPostById(postId);
+  @PostMapping("/detail.do")
+  public String getPostDetail(@RequestBody PostRequestVo requestVo, Model model) {
+    PostVo postVo = postService.getPostById(requestVo);
     model.addAttribute("post", postVo);
-
+    log.info(postVo.toString());
     return "board/post";
   }
 }

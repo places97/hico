@@ -46,15 +46,15 @@
 <th:block layout:fragment="script">
   <!-- JSRender Template -->
   <script id="dataRowTmpl" type="text/x-jsrender">
-    <tr onclick="fnGoToPostDetail({{: postId}})">
-      <td>{{: postId}}</td>
-      <td>{{: title}}</td>
-      <td>{{: writerName}}</td>
-      <td>{{: viewCount}}</td>
-      <td>{{: createdAt}}</td>
-      <td>{{: updatedAt}}</td>
-      <td>{{: delYn}}</td>
-    </tr>
+    <tr onclick="fnGoToPostDetail({{: postId}}, {{: boardId}})">
+       <td>{{: postId}}</td>
+       <td>{{: title}}</td>
+       <td>{{: writerName}}</td>
+       <td>{{: viewCount}}</td>
+       <td>{{: createdAt}}</td>
+       <td>{{: updatedAt}}</td>
+       <td>{{: delYn}}</td>
+     </tr>
   </script>
 
   <script type="text/javascript">
@@ -107,8 +107,8 @@
       }
     }
 
-    function fnGoToPostDetail(postId) {
-      window.location.href = `/post/detail.do?id=${postId}`;
+    function fnGoToPostDetail(postId, boardId) {
+      window.location.href = `/post/detail.do?postId=${postId}&boardId=${boardId}`;
     }
   </script>
 </th:block>

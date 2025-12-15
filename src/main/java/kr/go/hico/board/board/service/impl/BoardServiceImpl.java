@@ -1,6 +1,7 @@
-package kr.go.hico.board.board.service;
+package kr.go.hico.board.board.service.impl;
 
 import kr.go.hico.board.board.mapper.BoardMapper;
+import kr.go.hico.board.board.service.BoardService;
 import kr.go.hico.board.board.vo.BoardVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

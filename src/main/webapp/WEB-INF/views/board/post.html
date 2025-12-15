@@ -1,15 +1,107 @@
 <!DOCTYPE html>
 <html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{template/layout/layout}">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title th:text="${post.title}"></title>
+  <style>
+    .post-container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #fff;
+    }
+
+    .post-header {
+      border-bottom: 2px solid #333;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+
+    .post-header h1 {
+      font-size: 28px;
+      margin: 0;
+      margin-bottom: 10px;
+    }
+
+    .post-meta {
+      font-size: 14px;
+      color: #666;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .post-content {
+      white-space: pre-wrap; /* 줄 바꿈 및 공백 유지 */
+      line-height: 1.6;
+      min-height: 200px;
+    }
+
+    .post-actions {
+      margin-top: 30px;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+      text-align: right;
+    }
+
+    .post-actions a, button {
+      padding: 8px 15px;
+      margin-left: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-<main layout:fragment="Content"></main>
+<main layout:fragment="Content">
+  <div class="post-container">
+
+    <header class="post-header">
+      <h1 th:text="${post.title}">게시글 제목</h1>
+      <div class="post-meta">
+        <span>작성자: <span th:text="${post.writerName}">작성자 이름</span></span>
+        <span>조회수: <span th:text="${post.viewCount}">0</span></span>
+        <span>작성일: <span
+            th:text="${post.createdAt}">2025-01-01</span></span>
+        <span>수정일: <span
+            th:text="${post.updatedAt}">2025-01-01</span></span>
+      </div>
+    </header>
+
+    <section class="post-content">
+      <p th:text="${post.content}">여기에 게시글 내용이 표시됩니다. 줄바꿈이나 긴 텍스트가 들어갈 수 있습니다.</p>
+    </section>
+
+    <div class="post-actions">
+      <a th:href="@{/post/list.do}" class="btn-list">목록으로</a>
+
+      <a th:href="@{/post/update.do(id=${post.postId})}" class="btn-update">수정</a>
+      <button onclick="deletePost()">삭제</button>
+    </div>
+  </div>
+</main>
 
 <th:block layout:fragment="script">
+  <script th:inline="javascript">
+    // 상세 페이지에서 바로 삭제 요청을 보내는 함수 (예시)
+    function deletePost() {
+      if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+        const postId = [[${post.postId}]]; // Thymeleaf 변수를 JS 변수로 가져옵니다.
+
+        // TODO: AJAX 또는 form submit을 통해 삭제 요청 (DELETE or POST)을 보냅니다.
+        console.log("게시글 ID " + postId + " 삭제 요청 처리.");
+
+        // 삭제 처리 후 목록으로 이동
+        // window.location.href = '/post/list.do';
+      }
+    }
+  </script>
 </th:block>
 </body>
 </html>
