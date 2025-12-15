@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="csrfFragment">
+<body>
+<script type="text/javascript">
+  //window.csrfParameterName = "[[${_csrf?.parameterName}]]"; // 보통 '_csrf'
+  //window.csrfToken = "[[${_csrf?.token}]]";
+
+  // 스프링 시큐리티가 헤더에 기대하는 이름은 'X-CSRF-TOKEN'
+  const CSRF_HEADER_NAME = 'X-CSRF-TOKEN';
+  const CSRF_TOKEN = "[[${_csrf?.token}]]";
+
+  // 💡 모든 POST 요청 헤더에 자동으로 CSRF 토큰 포함
+  $(document).ready(function() {
+    if (CSRF_TOKEN) {
+      $.ajaxSetup({
+        beforeSend: function (xhr) {
+          if (this.type !== 'GET' && this.type !== 'HEAD') {
+            xhr.setRequestHeader(CSRF_HEADER_NAME, CSRF_TOKEN);
+          }
+        }
+      });
+    }
+  });
+  /*]]>*/
+</script>
+</body>
+</html>
