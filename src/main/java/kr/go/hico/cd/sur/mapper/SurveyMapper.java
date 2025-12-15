@@ -8,5 +8,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SurveyMapper {
   List<SurveyVo> getList();
 
-  SurveyVo transactionTest(SurveyVo surveyVo);
+  void transactionTest(SurveyVo surveyVo);
 }

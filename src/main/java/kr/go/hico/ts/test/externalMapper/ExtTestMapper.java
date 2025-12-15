@@ -8,4 +8,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ExtTestMapper {
   List<TestVo> getList();
 
+  void transaction(TestVo testVo);
 }

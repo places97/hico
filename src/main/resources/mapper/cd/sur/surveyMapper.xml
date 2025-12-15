@@ -36,7 +36,7 @@
     ON s.sur_id = sq.sur_id
   </select>
 
-  <insert id="transactionTest" parameterType="SurveyVo" useGeneratedKeys="true" keyProperty="surId">
+  <insert id="transactionTest" parameterType="SurveyVo">
     INSERT INTO survey ( target_cd
                        , title
                        , start_dt

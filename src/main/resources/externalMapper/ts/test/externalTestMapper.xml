@@ -9,4 +9,15 @@
     FROM test
   </select>
 
+  <insert id="transaction" parameterType="TestVo">
+    INSERT INTO test (
+      id
+      , test_content
+      , reg_date
+    ) VALUES (
+      #{id}
+      , #{testContent}
+      , #{regDate}
+      )
+  </insert>
 </mapper>
