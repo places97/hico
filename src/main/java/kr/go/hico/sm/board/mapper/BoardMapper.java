@@ -1,6 +1,6 @@
-package kr.go.hico.board.board.mapper;
+package kr.go.hico.sm.board.mapper;
 
-import kr.go.hico.board.board.vo.BoardVo;
+import kr.go.hico.sm.board.vo.BoardVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

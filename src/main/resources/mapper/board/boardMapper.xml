@@ -1,8 +1,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.go.hico.board.board.mapper.BoardMapper">
+<mapper namespace="kr.go.hico.sm.board.mapper.BoardMapper">
 
-	<select id="getBoardList" resultType="kr.go.hico.board.board.vo.BoardVo">
+	<select id="getBoardList" resultType="kr.go.hico.sm.board.vo.BoardVo">
 		SELECT
 				board_id
 			, auth_id

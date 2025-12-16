@@ -1,4 +1,4 @@
-package kr.go.hico.board.board.vo;
+package kr.go.hico.sm.board.vo;
 
 import kr.go.hico.cmm.cmm.vo.BaseWriter;
 import lombok.AllArgsConstructor;

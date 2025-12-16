@@ -1,16 +1,15 @@
-package kr.go.hico.board.post.service.impl;
+package kr.go.hico.sm.post.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
 import javax.transaction.Transactional;
-import kr.go.hico.board.post.mapper.PostMapper;
-import kr.go.hico.board.post.service.PostService;
-import kr.go.hico.board.post.vo.InsertPostVo;
-import kr.go.hico.board.post.vo.SearchPostVo;
-import kr.go.hico.board.post.vo.PostVo;
-import kr.go.hico.board.post.vo.SavePostVo;
+import kr.go.hico.sm.post.mapper.PostMapper;
+import kr.go.hico.sm.post.service.PostService;
+import kr.go.hico.sm.post.vo.InsertPostVo;
+import kr.go.hico.sm.post.vo.SearchPostVo;
+import kr.go.hico.sm.post.vo.PostVo;
+import kr.go.hico.sm.post.vo.SavePostVo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

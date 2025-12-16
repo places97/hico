@@ -1,4 +1,4 @@
-package kr.go.hico.board.post.vo;
+package kr.go.hico.sm.post.vo;
 
 import kr.go.hico.cmm.cmm.vo.BaseWriter;
 import lombok.Getter;

@@ -1,11 +1,11 @@
-package kr.go.hico.board.post.service;
+package kr.go.hico.sm.post.service;
 
-import kr.go.hico.board.post.vo.InsertPostVo;
-import kr.go.hico.board.post.vo.SearchPostVo;
-import kr.go.hico.board.post.vo.PostVo;
+import kr.go.hico.sm.post.vo.InsertPostVo;
+import kr.go.hico.sm.post.vo.SearchPostVo;
+import kr.go.hico.sm.post.vo.PostVo;
 
 import java.util.List;
-import kr.go.hico.board.post.vo.SavePostVo;
+import kr.go.hico.sm.post.vo.SavePostVo;
 
 public interface PostService {
 

@@ -1,8 +1,8 @@
-package kr.go.hico.board.post.vo;
+package kr.go.hico.sm.post.vo;
 
+import kr.go.hico.cmm.cmm.vo.BaseDate;
 import kr.go.hico.cmm.cmm.vo.BaseWriter;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,12 +15,11 @@ import lombok.experimental.SuperBuilder;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostVo extends BaseWriter {
+public class InsertPostVo extends BaseDate {
 
-  private Long postId;
   private Long boardId;
+  private Long userId;
   private String title;
   private String content;
   private String delYn;
-  private Integer viewCount;
 }

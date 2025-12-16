@@ -1,9 +1,9 @@
-package kr.go.hico.board.board.web;
+package kr.go.hico.sm.board.web;
 
 import org.springframework.ui.Model;
 import kr.go.hico.cmm.cmm.vo.ResultVo;
-import kr.go.hico.board.board.service.BoardService;
-import kr.go.hico.board.board.vo.BoardVo;
+import kr.go.hico.sm.board.service.BoardService;
+import kr.go.hico.sm.board.vo.BoardVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

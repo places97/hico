@@ -1,6 +1,6 @@
-package kr.go.hico.board.board.service;
+package kr.go.hico.sm.board.service;
 
-import kr.go.hico.board.board.vo.BoardVo;
+import kr.go.hico.sm.board.vo.BoardVo;
 
 import java.util.List;
 
