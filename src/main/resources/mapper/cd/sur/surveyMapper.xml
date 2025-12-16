@@ -36,4 +36,15 @@
     ON s.sur_id = sq.sur_id
   </select>
 
+  <insert id="transactionTest" parameterType="SurveyVo">
+    INSERT INTO survey ( target_cd
+                       , title
+                       , start_dt
+                       , end_dt)
+    VALUES ( #{targetCd}
+           , #{title}
+           , #{startDt}
+           , #{endDt})
+  </insert>
+
 </mapper>

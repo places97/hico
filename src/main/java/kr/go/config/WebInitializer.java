@@ -1,6 +1,8 @@
 package kr.go.config;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -40,6 +42,18 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     return new Filter[]{characterEncodingFilter, securityFilter};
   }
 
-  // 4. JackSon 설정
+  // 4. Multipart 설정
+  @Override
+  protected void customizeRegistration(Dynamic registration) {
+    // 파일 업로드 설정 (단위: 바이트)
+    long maxFileSize = 10 * 1024 * 1024;       // 10 MB
+    long maxRequestSize = 100 * 1024 * 1024;    // 100 MB
+    int fileSizeThreshold = 2 * 1024 * 1024;    // 2 MB
+
+    MultipartConfigElement multipartConfigElement =
+        new MultipartConfigElement(null, maxFileSize, maxRequestSize, fileSizeThreshold);
+
+    registration.setMultipartConfig(multipartConfigElement);
+  }
   
 }

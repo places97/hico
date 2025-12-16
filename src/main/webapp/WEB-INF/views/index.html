@@ -15,9 +15,9 @@
       <button class="btn" id="btn">입력</button>
       <button class="btn" id="reset">초기화</button>
       <button class="btn" id="sel">조회</button>
-      <button class="btn" id="move" onclick="fnMove('test/page.do')">이동</button>
+      <button class="btn" id="move" onclick="indexScript.fnMove('test/page.do')">이동</button>
       <button class="btn" id="err">에러</button>
-      <button class="btn" id="survey" onclick="fnMove('sur/page.do')">설문</button>
+      <button class="btn" id="survey" onclick="indexScript.fnMove('sur/page.do')">설문</button>
     </div>
 
     <input id="rst" type="text" readonly placeholder="결과 값"
@@ -127,7 +127,8 @@
         });
       }
       return {
-        init: init
+        init: init,
+        fnMove : fnMove
       };
     })();
 

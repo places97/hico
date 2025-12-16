@@ -36,6 +36,9 @@ public class SecurityConfig {
         // 세션 기반 방식에서 POST 요청을 보낼 때 필수적인 CSRF 토큰을 숨겨진 필드로 헤더에 포함
         //csrf 제외
         .csrf(csrf -> csrf
+            // 파일 업로드(Multipart)
+            .ignoringRequestMatchers(new AntPathRequestMatcher("/file/upload.do"))
+            .ignoringRequestMatchers(new AntPathRequestMatcher("/file/upload-multi.do"))
             // SSO 콜백 URL이나 외부에서 POST 요청이 들어오는 특정 URL을 제외
             .ignoringRequestMatchers(new AntPathRequestMatcher("/login.do"))
             //.ignoringRequestMatchers(new AntPathRequestMatcher("/sso/url"))

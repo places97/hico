@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{template/layout/layout}">
+<head>
+  <title layout:fragment="title">파일 업로드/다운로드</title>
+</head>
+
+<body>
+<main layout:fragment="Content">
+  <div class="container">
+    <h2>파일 테스트</h2>
+
+    <div th:if="${message != null}" class="alert alert-info">
+      <p th:text="${message}"></p>
+
+      <div th:if="${storedFileName != null}">
+        <p>단일 파일 미리보기:</p>
+        <img th:src="@{|/file/view/${storedFileName}|}" alt="업로드된 이미지" class="uploaded-image-preview" />
+        <br>
+        <a th:href="@{|/file/download/${storedFileName}|}" class="btn-download">단일 파일 다운로드</a>
+      </div>
+
+      <div th:if="${savedFilesList != null}">
+        <p>업로드된 멀티 파일 목록:</p>
+        <ul>
+          <li th:each="fileVo : ${savedFilesList}">
+            <span th:text="${fileVo.originalName}">원본 파일명</span> (Size: <span th:text="${fileVo.fileSize}"></span> bytes)
+
+            <!-- 이미지 미리보기 -->
+            <img th:if="${fileVo.contentType.startsWith('image/')}"
+                 th:src="@{|/file/view/${fileVo.storedName}|}"
+                 alt="미리보기" class="uploaded-image-preview-small" />
+
+            <!-- 다운로드 링크 -->
+            <a th:href="@{|/file/download/${fileVo.storedName}|}">다운로드</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>단일 파일 업로드</h3>
+    <form th:action="@{/file/upload.do}" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" required>
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <button type="submit" class="btn-upload">업로드</button>
+    </form>
+
+    <hr>
+
+    <h3>멀티 파일 업로드</h3>
+    <form th:action="@{/file/upload-multi.do}" method="post" enctype="multipart/form-data">
+      <input type="file" name="files" multiple required>
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <button type="submit" class="btn-upload">멀티 업로드</button>
+    </form>
+
+  </div>
+</main>
+
+<th:block layout:fragment="script">
+</th:block>
+
+<style layout:fragment="style">
+  /* ... (기존 스타일 유지) ... */
+  .uploaded-image-preview-small { /* ... */ }
+</style>
+
+</body>
+</html>
