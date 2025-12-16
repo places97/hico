@@ -2,6 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.go.hico.board.post.mapper.PostMapper">
+	<insert id="insertPost" parameterType="kr.go.hico.board.post.vo.InsertPostVo">
+		INSERT
+			INTO post
+			(
+					board_id
+				, user_id
+				, created_at
+				, updated_at
+				, title
+				, content
+				, del_yn
+			)
+		VALUES
+			(
+					#{boardId}
+				, #{userId}
+				, #{createdAt}
+				, #{updatedAt}
+				, #{title}
+				, #{content}
+				, #{delYn}
+			);
+	</insert>
+
+	<update id="updatePost" parameterType="kr.go.hico.board.post.vo.SavePostVo">
+
+	</update>
 
 	<select id="getPostListByBoardId" parameterType="long"
 		resultType="kr.go.hico.board.post.vo.PostVo">
@@ -25,7 +52,7 @@
 		 ORDER BY
 			 p.created_at DESC
 	</select>
-	<select id="getPostById" parameterType="kr.go.hico.board.post.vo.PostRequestVo"
+	<select id="getPostById" parameterType="kr.go.hico.board.post.vo.SearchPostVo"
 		resultType="kr.go.hico.board.post.vo.PostVo">
 		SELECT
 				p.post_id

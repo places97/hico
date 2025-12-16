@@ -1,5 +1,8 @@
 package kr.go.hico.board.post.web;
 
+import kr.go.hico.board.post.vo.InsertPostVo;
+import kr.go.hico.board.post.vo.SearchPostVo;
+import kr.go.hico.board.post.vo.SavePostVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import java.util.List;
@@ -10,8 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/post")
@@ -31,11 +36,39 @@ public class PostController {
     return ResponseEntity.ok(resultVo);
   }
 
-  @GetMapping("/detail.do")
-  public String getPostDetail(@RequestParam("id") Long postId, Model model) {
-    PostVo postVo = postService.getPostById(postId);
-    model.addAttribute("post", postVo);
+  @PutMapping("/save.do")
+  public ResponseEntity<ResultVo> save(@RequestBody SavePostVo savePostVo) {
+    ResultVo resultVo = new ResultVo();
+    boolean rst = postService.savePost(savePostVo);
+    if (rst) {
+      resultVo.setResMsg("게시글 저장 성공");
+    } else {
+      resultVo.setResMsg("게시글 저장 실패");
+    }
 
+    return ResponseEntity.ok(resultVo);
+  }
+
+  @RequestMapping("/detail.do")
+  public String getPostDetail(SearchPostVo requestVo, Model model) {
+    PostVo postVo = postService.getPostById(requestVo);
+    model.addAttribute("post", postVo);
     return "board/post";
+  }
+
+  @RequestMapping("/insert.do")
+  public String insert(Long boardId, Model model) {
+    model.addAttribute("boardId", boardId);
+    return "board/new-post";
+  }
+
+  @PostMapping("/insert.do")
+  public ResponseEntity<ResultVo> insert(@RequestBody InsertPostVo insertPostVo) {
+    ResultVo resultVo = new ResultVo();
+    boolean isSuccess = postService.insertPost(insertPostVo);
+    if (isSuccess) {
+      resultVo.setSuccess(insertPostVo);
+    }
+    return ResponseEntity.ok(resultVo);
   }
 }

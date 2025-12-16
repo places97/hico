@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template/layout/layout}">
+<head>
+  <title>게시글 등록</title>
+</head>
+<body>
+
+<main layout:fragment="Content">
+  <h1>새 게시글 등록</h1>
+  <hr>
+
+  <div id="insertForm">
+
+    <div class="form-group">
+      <label for="postTitle">제목</label>
+      <input type="text"
+             class="form-control"
+             id="postTitle"
+             name="title"
+             placeholder="제목을 입력하세요."
+             required>
+    </div>
+
+    <div class="form-group" style="margin-top: 20px;">
+      <label for="postContent">내용</label>
+      <textarea class="form-control"
+                id="postContent"
+                name="content"
+                rows="10"
+                placeholder="내용을 입력하세요."
+                required></textarea>
+    </div>
+
+    <input type="hidden" id="boardId" name="boardId" th:value="${boardId}">
+
+    <div class="button-group" style="margin-top: 30px;">
+      <button type="button" class="btn btn-primary" onclick="fnInsertPost()">등록</button>
+
+      <button type="button" class="btn btn-secondary" onclick="fnGoToList()">취소</button>
+    </div>
+  </div>
+
+</main>
+
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+    function fnInsertPost() {
+      const boardId = $("#boardId").val();
+      const title = $("#postTitle").val();
+      const content = $("#postContent").val();
+      const insertDate = {
+        boardId: boardId,
+        title: title,
+        content: content,
+        delYn: 'N'
+      }
+
+      $.ajax({
+        url: '/post/insert.do',
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(insertDate),
+        success: function (response) {
+          alert("성공::: " + response);
+        },
+        error: function (error) {
+          console.error('error 발생:  ', error);
+          alert("비속어는 사용할 수 없습니다.")
+        }
+      })
+    }
+
+    /* 취소 버튼 클릭 시 실행될 JavaScript 함수 */
+    function fnGoToList() {
+      // boardId 값을 hidden 필드에서 가져옵니다.
+      const boardId = document.getElementById('boardId').value;
+
+      // 게시글 목록 페이지로 이동합니다. (Controller에서 받은 boardId를 사용)
+      if (boardId) {
+        location.href = '/board/list?boardId=' + boardId;
+      } else {
+        // boardId가 없으면 기본 목록 페이지로 이동하거나 에러 처리
+        location.href = '/board/defaultList';
+      }
+    }
+
+    // 이외에 폼 유효성 검사 등 필요한 스크립트를 여기에 추가할 수 있습니다.
+  </script>
+</th:block>
+</body>
+</html>
