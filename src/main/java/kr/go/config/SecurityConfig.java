@@ -38,7 +38,9 @@ public class SecurityConfig {
         .csrf(csrf -> csrf
             // 파일 업로드(Multipart)
             .ignoringRequestMatchers(new AntPathRequestMatcher("/file/upload.do"))
+            .ignoringRequestMatchers(new AntPathRequestMatcher("/file/upload-formtest.do"))
             .ignoringRequestMatchers(new AntPathRequestMatcher("/file/upload-multi.do"))
+            .ignoringRequestMatchers(new AntPathRequestMatcher("/file/upload-multi-formtest.do"))
             // SSO 콜백 URL이나 외부에서 POST 요청이 들어오는 특정 URL을 제외
             .ignoringRequestMatchers(new AntPathRequestMatcher("/login.do"))
             //.ignoringRequestMatchers(new AntPathRequestMatcher("/sso/url"))

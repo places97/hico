@@ -41,7 +41,7 @@
     </div>
 
     <h3>단일 파일 업로드</h3>
-    <form th:action="@{/file/upload.do}" method="post" enctype="multipart/form-data">
+    <form th:action="@{/file/upload-formtest.do}" method="post" enctype="multipart/form-data">
       <input type="file" name="file" required>
       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
       <button type="submit" class="btn-upload">업로드</button>
@@ -50,7 +50,7 @@
     <hr>
 
     <h3>멀티 파일 업로드</h3>
-    <form th:action="@{/file/upload-multi.do}" method="post" enctype="multipart/form-data">
+    <form th:action="@{/file/upload-multi-formtest.do}" method="post" enctype="multipart/form-data">
       <input type="file" name="files" multiple required>
       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
       <button type="submit" class="btn-upload">멀티 업로드</button>

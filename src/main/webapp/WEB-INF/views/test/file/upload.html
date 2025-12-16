@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{template/layout/layout}">
+<head>
+  <title layout:fragment="title">파일 업로드 (AJAX)</title>
+</head>
+
+<body>
+<main layout:fragment="Content">
+  <div class="container">
+    <h2>파일 테스트 (AJAX)</h2>
+
+    <div id="resultsArea" class="alert alert-info" style="display: none;">
+      <p id="messageArea"></p>
+      <div id="singleFileResult"></div>
+      <ul id="multiFileResult"></ul>
+    </div>
+
+    <!-- 단일 파일 업로드 폼 -->
+    <h3>단일 파일 업로드</h3>
+    <form id="uploadForm">
+      <input type="file" id="singleFile" name="file" required>
+      <button type="button" id="btnSingleUpload" class="btn-upload">업로드 (AJAX)</button>
+    </form>
+
+    <hr>
+
+    <!-- 멀티 파일 업로드 폼 -->
+    <h3>멀티 파일 업로드</h3>
+    <form id="uploadMultipleForm">
+      <input type="file" id="multipleFiles" name="files" multiple required>
+      <button type="button" id="btnMultiUpload" class="btn-upload">멀티 업로드 (AJAX)</button>
+    </form>
+
+  </div>
+</main>
+
+<th:block layout:fragment="script">
+  <script type="text/javascript">
+    const fileUpload = (function () {
+      function init() {
+        fnAddEvent();
+      }
+
+      // 이벤트 바인딩 함수
+      function fnAddEvent() {
+        $('#btnSingleUpload').on('click', fnUploadSingleFile);
+        $('#btnMultiUpload').on('click', fnUploadMultipleFiles);
+      }
+
+      // --- 단일 파일 업로드 처리 ---
+      function fnUploadSingleFile() {
+        const input = $('#singleFile')[0];
+        const files = input.files;
+        if (files.length === 0) {
+          alert("파일을 선택해주세요.");
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', files[0]); // 단일 파일이므로 files[0]
+
+        $.ajax({
+          url: '/file/upload.do',
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            fnDisplaySingleResult(response.data);
+          },
+          error: function (response) {
+            const errorResponse = JSON.parse(response.responseText);
+            alert("서버 오류: " + errorResponse.resMsg);
+          }
+        });
+      }
+
+      // --- 멀티 파일 업로드 처리 ---
+      function fnUploadMultipleFiles() {
+        const input = $('#multipleFiles')[0];
+        const files = input.files;
+        if (files.length === 0) {
+          alert("파일을 선택해주세요.");
+          return;
+        }
+
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append('files', files[i]);
+        }
+
+        $.ajax({
+          url: '/file/upload-multi.do',
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            fnDisplayMultiResult(response.data);
+          },
+          error: function (response) {
+            const errorResponse = JSON.parse(response.responseText);
+            alert("서버 오류: " + errorResponse.resMsg);
+          }
+        });
+      }
+
+      function fnDisplaySingleResult(fileVo) {
+        $('#messageArea').text("단일 파일 업로드 성공: " + fileVo.originalName);
+        $('#singleFileResult').html(
+            `<p>미리보기:</p>
+           <img src="/file/view/${fileVo.storedName}" class="uploaded-image-preview" alt="preview" />
+           <br>
+           <a href="/file/download/${fileVo.storedName}" class="btn-download">다운로드</a>`
+        );
+        $('#resultsArea').show();
+        $('#multiFileResult').empty();
+      }
+
+      function fnDisplayMultiResult(savedFilesList) {
+        $('#messageArea').text(savedFilesList.length + "개의 파일 업로드 완료.");
+        const ul = $('#multiFileResult');
+        ul.empty();
+
+        savedFilesList.forEach(fileVo => {
+          let html = `<li><span>${fileVo.originalName}</span> (Size: ${fileVo.fileSize} bytes)`;
+          if (fileVo.contentType && fileVo.contentType.startsWith('image/')) {
+            html += `<img src="/file/view/${fileVo.storedName}" class="uploaded-image-preview-small" alt="preview" />`;
+          }
+          html += `<a href="/file/download/${fileVo.storedName}">다운로드</a></li>`;
+          ul.append(html);
+        });
+
+        $('#resultsArea').show();
+        $('#singleFileResult').empty();
+      }
+
+      return {
+        init: init
+      };
+    })();
+
+    $(function () {
+      fileUpload.init();
+    });
+  </script>
+</th:block>
+
+<style layout:fragment="style">
+  .container {
+    max-width: 900px;
+    margin: 30px auto 0;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  }
+
+  .form-area {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .form-area input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background: #1976d2;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+
+  .btn:hover {
+    background: #0d47a1;
+  }
+
+  #data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 15px;
+  }
+
+  #data-table th {
+    background: #f3f6fa;
+    color: #333;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+  }
+
+  #data-table td {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px;
+  }
+
+  #data-table tbody tr:hover {
+    background: #f9fcff;
+  }
+
+  #data-table-dtl {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 15px;
+  }
+
+  #data-table-dtl th {
+    background: #f3f6fa;
+    color: #333;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+  }
+
+  #data-table-dtl td {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px;
+  }
+
+  #data-table-dtl tbody tr:hover {
+    background: #f9fcff;
+  }
+
+  .no-data {
+    text-align: center;
+    color: #888;
+  }
+</style>
+
+</body>
+</html>
