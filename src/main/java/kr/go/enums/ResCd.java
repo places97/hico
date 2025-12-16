@@ -13,11 +13,14 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ResCd {
-  SUCCESS(HttpStatus.OK,0, "성공")
-  , FAIL_GENERAL(HttpStatus.BAD_REQUEST,999, "오류가 발생하였습니다.")
+  SUCCESS(HttpStatus.OK, 0, "성공"),
+  FAIL_GENERAL(HttpStatus.BAD_REQUEST, 999, "오류가 발생하였습니다.")
+
+  // @formatter:off --> 포메팅 규칙 해제
 
   // 100 시스템공통(CM)
-  , CM_IO(HttpStatus.INTERNAL_SERVER_ERROR,101,"서버 내부 I/O 처리 중 오류가 발생했습니다.")
+  , CM_IO(HttpStatus.INTERNAL_SERVER_ERROR, 101, "서버 내부 I/O 처리 중 오류가 발생했습니다.")
+  , CM_ASP(HttpStatus.INTERNAL_SERVER_ERROR, 102, "비속어가 감지 되었습니다.")
   // 200 학습공동체(LC)
   // 300 학습콘텐츠(CR)
   // 400 학습모듈(MR)
@@ -26,8 +29,10 @@ public enum ResCd {
   // 700 성장포토폴리오(GP)
   // 800 역량진단(CD)
   // 900 시스템관리(SM)
-;
+  ;
 
+  // @formatter:on --> 이후 포매팅 규칙 적용
+  
   private final HttpStatus httpStatus;
   private int code;
   private String msg;

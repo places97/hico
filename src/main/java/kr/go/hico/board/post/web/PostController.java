@@ -49,14 +49,14 @@ public class PostController {
     return ResponseEntity.ok(resultVo);
   }
 
-  @GetMapping("/detail.do")
+  @RequestMapping("/detail.do")
   public String getPostDetail(SearchPostVo requestVo, Model model) {
     PostVo postVo = postService.getPostById(requestVo);
     model.addAttribute("post", postVo);
     return "board/post";
   }
 
-  @GetMapping("/insert.do")
+  @RequestMapping("/insert.do")
   public String insert(Long boardId, Model model) {
     model.addAttribute("boardId", boardId);
     return "board/new-post";

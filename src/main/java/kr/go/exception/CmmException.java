@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.springframework.web.server.ResponseStatusException;
 
 @Getter
-public class CmmException extends ResponseStatusException  {
+public class CmmException extends ResponseStatusException {
 
   private final ResCd resCd;
 
