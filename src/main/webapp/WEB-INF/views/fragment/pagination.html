@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <style>
+
+/* pagination wrapper */
+.pagination {
+    margin-top: 15px;
+    text-align: center;
+}
+
+/* 공통 버튼 */
+.pagination a {
+    display: inline-block;
+    min-width: 32px;
+    padding: 6px 10px;
+    margin: 0 2px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: #333;
+    text-decoration: none;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* hover */
+.pagination a:hover {
+    background-color: #f5f5f5;
+}
+
+/* 현재 페이지 */
+.pagination a.active {
+    background-color: #2f80ed;
+    border-color: #2f80ed;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* 이전/다음 */
+.pagination a.prev,
+.pagination a.next {
+    font-weight: 500;
+}
+  </style>
+</head>
+
+<body>
+
+<!-- pagination fragment -->
+    <div class="pagination" th:fragment="pagination(pageVO)">
+		<!-- 맨 처음 -->
+		<a href="javascript:void(0);"
+			class="page-btn first"
+			th:if="${pageVO.page > 1}"
+			th:data-page="1">
+			처음
+		</a>
+
+        <!-- 이전 그룹 -->
+		<a href="javascript:void(0);"
+			class="page-btn"
+			th:if="${pageVO.prevPage != null}"
+			th:data-page="${pageVO.prevPage}">
+			이전
+		</a>
+
+        <!-- 페이지 번호 -->
+        <span th:each="i : ${#numbers.sequence(pageVO.startPage, pageVO.endPage)}">
+            <a href="javascript:void(0);"
+               class="page-btn"
+               th:text="${i}"
+               th:data-page="${i}"
+               th:data-current="${i == pageVO.page ? true : false}"
+               th:classappend="${i == pageVO.page} ? 'active' : ''">
+            </a>
+        </span>
+
+        <!-- 다음 그룹 -->
+		<a href="javascript:void(0);"
+			class="page-btn"
+			th:if="${pageVO.nextPage != null}"
+			th:data-page="${pageVO.nextPage}">
+			다음
+		</a>
+
+		<!-- 맨 마지막 -->
+		<a href="javascript:void(0);"
+			class="page-btn last"
+			th:if="${pageVO.page < pageVO.totalPage}"
+			th:data-page="${pageVO.totalPage}">
+			마지막
+		</a>
+    </div>
+
+</body>
+</html>

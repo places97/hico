@@ -1,6 +1,7 @@
 package kr.go.hico.ts.test.vo;
 
 import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class TestVo {
+public class TestVo extends PageVO {
 
   private Long id;
   private String testContent;

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="selectListHtmlFm">
+	<table id="data-table">
+		<thead>
+			<tr>
+				<th style="width:70px;">순번1</th>
+				<th>제목</th>
+				<th style="width:180px;">날짜</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:if="${#lists.isEmpty(rstList)}">
+				<td colspan="3" class="no-data">조회 결과가 없습니다.</td>
+			</tr>
+			<tr th:each="testVO : ${rstList}">
+				<td style="width:70px;" th:text="${testVO.id}"></td>
+				<td th:text="${testVO.testContent}"></td>
+				<td style="width:180px;" th:text="${testVO.regDate}"></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<!-- 페이징처리 s -->
+	<div th:replace="fragment/pagination :: pagination(${pageVO})"></div>
+	<!-- 페이징처리 e -->
+</div>
+
+</body>
+</html>
