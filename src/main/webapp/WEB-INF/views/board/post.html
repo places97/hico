@@ -81,7 +81,7 @@
     <div class="post-actions">
       <a th:href="@{/post/list.do}" class="btn-list">목록으로</a>
 
-      <a th:href="@{/post/update.do(id=${post.postId})}" class="btn-update">수정</a>
+      <button onclick="savePost('${post.boardId}', '${post.postId}')">수정</button>
       <button onclick="deletePost()">삭제</button>
     </div>
   </div>
@@ -89,16 +89,35 @@
 
 <th:block layout:fragment="script">
   <script th:inline="javascript">
+
+    function savePost(boardId, postId) {
+      const requestPost = {
+        boardId: boardId,
+        postId: postId,
+        title: "테스트",
+        content: "테스트"
+      }
+
+      const jsonData = JSON.stringify(requestPost);
+
+      $.ajax({
+        url: '/post/save.do',
+        type: 'PUT',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: jsonData,
+        success: function (response) {
+          alert("성공::: " + response);
+        },
+        error: function (error) {
+          console.error('error 발생:  ', error);
+        }
+      });
+    }
+
     // 상세 페이지에서 바로 삭제 요청을 보내는 함수 (예시)
     function deletePost() {
       if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
-        const postId = [[${post.postId}]]; // Thymeleaf 변수를 JS 변수로 가져옵니다.
-
-        // TODO: AJAX 또는 form submit을 통해 삭제 요청 (DELETE or POST)을 보냅니다.
-        console.log("게시글 ID " + postId + " 삭제 요청 처리.");
-
-        // 삭제 처리 후 목록으로 이동
-        // window.location.href = '/post/list.do';
       }
     }
   </script>
