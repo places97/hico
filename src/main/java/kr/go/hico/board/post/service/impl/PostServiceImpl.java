@@ -1,7 +1,8 @@
-package kr.go.hico.board.post.service;
+package kr.go.hico.board.post.service.impl;
 
 import java.util.List;
 import kr.go.hico.board.post.mapper.PostMapper;
+import kr.go.hico.board.post.service.PostService;
 import kr.go.hico.board.post.vo.PostVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
