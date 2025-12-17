@@ -21,17 +21,11 @@ public class SwearWordFilterAsp {
 
   private CustomSwearWordFilterUtil filter;
 
-  // TODO: 추후 함수 이름규칙 비정해지면 수정
-  // 모든 Service에서 insert 나 update 로 시작하는 모든 메서드
-  @Pointcut("execution(* kr.go.hico.*.*.service.*Service.insert*(..)) || execution(* kr.go.hico.*.*.service.*Service.update*(..))")
-  public void saveMethods() {
-  }
-
   /**
    *
    * @param joinPoint
    */
-  @Before("saveMethods()")
+  @Before("@annotation(kr.go.annotation.CheckSwearWord)")
   public void filterSwearWords(JoinPoint joinPoint) {
     filter = new CustomSwearWordFilterUtil();
 

@@ -1,5 +1,6 @@
 package kr.go.hico.sm.post.web;
 
+import kr.go.annotation.CheckSwearWord;
 import kr.go.hico.sm.post.vo.InsertPostVo;
 import kr.go.hico.sm.post.vo.SearchPostVo;
 import kr.go.hico.sm.post.vo.SavePostVo;
@@ -63,6 +64,7 @@ public class PostController {
   }
 
   @PostMapping("/insert.do")
+  @CheckSwearWord
   public ResponseEntity<ResultVo> insert(@RequestBody InsertPostVo insertPostVo) {
     ResultVo resultVo = new ResultVo();
     boolean isSuccess = postService.insertPost(insertPostVo);
