@@ -2,126 +2,134 @@ package kr.go.util;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.Map;
 import kr.go.annotation.MaskData;
+import kr.go.policy.DeIdentifyPolicyLoader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+/**
+ * <pre>
+ * 간략 설명 : AOP 기반 비식별 조치(마스킹)
+ * 상세 설명 :
+ *  1. @MaskData 어노테이션이 선언된 DTO/VO의 필드를 자동으로 탐색하여 비식별화함.
+ *  2. 외부 정책 파일(privacy-policy.json)을 로드하여 정책 기반으로 동작함.
+ *  3. ResponseEntity, Collection(List/Set), 중첩된 내부 DTO까지 재귀적으로 탐색하여 처리함.
+ *  4. 2025년 개인정보 비식별 조치 가이드라인(NAME, PHONE, SSN, ADDR, IP 등)을 준수함.
+ *
+ */
 @Component
 public class MaskDataUtil {
-  /**
-   * 재귀적으로 객체를 탐색하며 @MaskData가 붙은 필드를 마스킹 처리합니다.
-   * 또한, 중첩된 객체(다른 DTO/VO, Collection, ResponseEntity)도 재귀적으로 처리합니다.
-   * @param target 원본 객체
-   */
-  public void process(Object target) {
-    if (target == null) {
-      return;
-    }
 
-    Class<?> clazz = target.getClass();
+    @Autowired
+    private DeIdentifyPolicyLoader policyLoader;
 
-    // 1. ResponseEntity 타입 처리
-    if (target instanceof ResponseEntity) {
-      Object body = ((ResponseEntity<?>) target).getBody();
-      process(body);
-      return;
-    }
+    /**
+     * 객체를 탐색하며 마스킹 처리 (재귀 호출)
+     */
+    public void process(Object target) {
+      if (target == null)
+        return;
 
-    // 2. 무한 재귀 및 시스템/기본 클래스 방지 로직
-    if (clazz.getName().startsWith("java.lang.") ||
-        //clazz.getName().startsWith("org.springframework.") ||
-        clazz.isPrimitive() ||
-        target instanceof String ||
-        target instanceof Number ||
-        target instanceof Boolean ||
-        clazz.getSimpleName().startsWith("$$EnhancerBySpringCGLIB$$")) {
-      return;
-    }
-
-    // 3. Collection 타입 처리 (List<Test2Vo> 처리용)
-    if (target instanceof Collection) {
-      for (Object item : (Collection<?>) target) {
-        process(item); // 리스트 내의 각 항목에 대해 재귀 호출
+      // 1. ResponseEntity 처리
+      if (target instanceof ResponseEntity) {
+        process(((ResponseEntity<?>) target).getBody());
+        return;
       }
-      return;
-    }
 
-    // 4. 일반 DTO/VO 객체의 필드 순회 및 재귀 호출
-    for (Field field : clazz.getDeclaredFields()) {
-      field.setAccessible(true);
-      try {
-        Object value = field.get(target);
+      Class<?> clazz = target.getClass();
 
-        if (field.isAnnotationPresent(MaskData.class) && value instanceof String) {
-          // @MaskData가 붙은 String 필드 마스킹 및 값 변경
-          String original = (String) value;
-          String maskedValue = maskString(original, field.getAnnotation(MaskData.class).type());
-          field.set(target, maskedValue);
-        } else if (value != null) {
-          // 중첩 객체에 대해 재귀 호출
-          process(value);
-        }
-
-      } catch (Exception e) {
-        e.printStackTrace();
-      } finally {
-        field.setAccessible(false);
+      // 2. 기본 타입 및 시스템 클래스 스킵
+      if (clazz.getName().startsWith("java.lang.") ||
+          clazz.isPrimitive() ||
+          target instanceof String ||
+          target instanceof Number ||
+          target instanceof Boolean ||
+          clazz.getSimpleName().startsWith("$$EnhancerBySpringCGLIB$$")) {
+        return;
       }
-    }
-  }
 
-  /**
-   * 마스킹 처리
-   */
-  private String maskString(String original, String type) {
-    if (original == null || original.length() < 2) {
-      return original;
-    }
+      // 3. Collection 처리
+      if (target instanceof Collection) {
+        for (Object item : (Collection<?>) target) {
+          process(item);
+        }
+        return;
+      }
 
-    switch (type) {
-      case "NAME":
-        int length = original.length();
-        if (length == 2) {
-          return original.charAt(0) + "*";
-        } else {
-          // 3글자 이상일 경우 첫 글자와 마지막 글자 사이를 *로 마스킹
-          return original.charAt(0) + "*".repeat(length - 2) + original.charAt(length - 1);
-        }
-      case "EMAIL": // 이메일
-        int atIndex = original.indexOf('@');
-        if (atIndex > 1) {
-          return original.substring(0, 1) + "***" + original.substring(atIndex);
-        }
-        return original;
-      case "SSN": // 주민등록번호
-        // 예: 901231-1234567 -> 901231-1******
-        if (original.length() == 13 || original.length() == 14) { // '-' 포함 또는 미포함
-          int dashIndex = original.indexOf('-');
-          if (dashIndex == -1) {
-            // '-'가 없으면 7번째 자리부터 마스킹 (0-based index 6)
-            return original.substring(0, 6) + "*******";
+      // 4. 필드 순회
+      for (Field field : clazz.getDeclaredFields()) {
+        field.setAccessible(true);
+        try {
+          Object value = field.get(target);
+          if (value == null)
+            continue;
+
+          if (field.isAnnotationPresent(MaskData.class) && value instanceof String) {
+            String type = field.getAnnotation(MaskData.class).type();
+            String maskedValue = executePolicy((String) value, type);
+            field.set(target, maskedValue);
           } else {
-            // '-'가 있으면 '-' 다음 자리부터 마스킹 (0-based index 8)
-            return original.substring(0, dashIndex + 2) + "******";
+            process(value); // 중첩 객체 재귀
           }
+        } catch (Exception e) {
+          // 로그 처리 생략
         }
-        return original; // 형식이 안 맞으면 그대로 반환
-      case "PHONE": // 휴대폰 번호 (가운데 4자리 마스킹)
-        String digitsOnly = original.replaceAll("-", "");
+      }
+    }
 
-        if (digitsOnly.length() == 11) {
-          String masked = digitsOnly.substring(0, 3)
-              + "-****-"
-              + digitsOnly.substring(7);
-          return masked;
-        } else {
-          // 11자리가 아니면 기본 마스킹 적용
-          int half = original.length() / 2;
-          return original.substring(0, half) + "*".repeat(original.length() - half);
-        }
-      default:
-        int half = original.length() / 2;
-        return original.substring(0, half) + "*".repeat(original.length() - half);
+    private String executePolicy(String original, String type) {
+      if (original == null || original.isEmpty())
+        return original;
+      Map<String, String> policy = policyLoader.getPolicy(type);
+      return applyMaskingPattern(original, policy.get("pattern"));
+    }
+
+    /**
+     * 패턴별 상세 마스킹 로직 (8종)
+     */
+    private String applyMaskingPattern(String value, String pattern) {
+      if (value == null || value.isEmpty())
+        return value;
+
+      switch (pattern) {
+        case "NAME_KR": // 성명: 2글자(홍*), 3글자 이상(홍*동, 홍**동)
+          if (value.length() <= 2)
+            return value.replaceAll("(?<=.).", "*");
+          return value.charAt(0) + "*".repeat(value.length() - 2) + value.charAt(
+              value.length() - 1);
+
+        case "PHONE_KR": // 휴대폰: 010-****-1234
+          return value.replaceAll("(\\d{2,3})[- .]?\\d{3,4}[- .]?(\\d{4})", "$1-****-$2");
+
+        case "EMAIL": // 이메일: ab***@domain.com
+          return value.replaceAll("(?<=.{2}).(?=[^@]*?@)", "*");
+
+        case "SSN": // 주민번호: 900101-1******
+          return value.replaceAll("(\\d{6})[- .]?(\\d{1})\\d{6}", "$1-$2******");
+
+        case "ADDR_CITY": // 주소: 서울특별시 강남구 ***
+          String[] addrParts = value.split(" ");
+          if (addrParts.length >= 2) {
+            return addrParts[0] + " " + addrParts[1] + " " + "***";
+          }
+          return value.substring(0, Math.min(value.length(), 5)) + "***";
+
+        case "IP_ADDR": // IP: 192.168.0.***
+          return value.replaceAll("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})\\.\\d{1,3}", "$1.***");
+
+        case "BIRTH_DAY": // 생년월일: 1990-**-**
+          return value.replaceAll("(\\d{4})[- .]?\\d{2}[- .]?\\d{2}", "$1-**-**");
+
+        case "USER_ID": // 아이디: admin -> adm**
+          if (value.length() <= 3)
+            return value.replaceAll("(?<=.{1}).", "*");
+          return value.substring(0, 3) + "*".repeat(value.length() - 3);
+
+        default: // 공통(절반 마스킹)
+          int half = value.length() / 2;
+          return value.substring(0, half) + "*".repeat(value.length() - half);
+      }
     }
   }
-}

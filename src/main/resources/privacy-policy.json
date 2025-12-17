@@ -1,0 +1,10 @@
+{
+  "NAME": { "pattern": "NAME_KR", "desc": "성명 (성 유지, 이름 중문/말미 마스킹)" },
+  "PHONE": { "pattern": "PHONE_KR", "desc": "휴대폰번호 (국번 및 중간 번호 일부 마스킹)" },
+  "EMAIL": { "pattern": "EMAIL", "desc": "이메일 (아이디 앞 2자리 제외 및 도메인 유지 마스킹)" },
+  "SSN": { "pattern": "SSN", "desc": "주민등록번호 (생년월일 및 성별 코드 외 뒷자리 마스킹)" },
+  "ADDR": { "pattern": "ADDR_CITY", "desc": "주소 (시/군/구 단위 외 상세 주소 마스킹)" },
+  "IP": { "pattern": "IP_ADDR", "desc": "접속 IP (마지막 4옥텟 대역 마스킹)" },
+  "BIRTH": { "pattern": "BIRTH_DAY", "desc": "생년월일 (출생 연도 외 월/일 정보 마스킹)" },
+  "ID": { "pattern": "USER_ID", "desc": "로그인 ID (식별 방지를 위해 앞 3자리 제외 마스킹)" }
+}

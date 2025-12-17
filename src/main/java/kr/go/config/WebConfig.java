@@ -1,5 +1,6 @@
 package kr.go.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 import org.springframework.beans.BeansException;
@@ -19,13 +20,12 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @EnableWebMvc
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(
-    basePackages = {"kr.go.hico.*.*.web", "kr.go.config"}
+    basePackages = {"kr.go.hico.*.*.web"}
 )
 
 public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
@@ -94,16 +94,6 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
     registry.addResourceHandler("/css/**").addResourceLocations("/css/");
     registry.addResourceHandler("/js/**").addResourceLocations("/js/");
     registry.addResourceHandler("/images/**").addResourceLocations("/images/");
-
-    // Swagger
-    registry.addResourceHandler("/swagger-ui/**")
-        .addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/");
-    registry.addResourceHandler("swagger-ui.html")
-        .addResourceLocations("classpath:/META-INF/resources/");
-    registry.addResourceHandler("/v3/api-docs/**")
-        .addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/");
-    registry.addResourceHandler("/webjars/**")
-        .addResourceLocations("classpath:/META-INF/resources/webjars/");
   }
 
   /**
