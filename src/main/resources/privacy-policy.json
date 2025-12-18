@@ -1,10 +1,15 @@
 {
-  "NAME": { "pattern": "NAME_KR", "desc": "성명 (성 유지, 이름 중문/말미 마스킹)" },
-  "PHONE": { "pattern": "PHONE_KR", "desc": "휴대폰번호 (국번 및 중간 번호 일부 마스킹)" },
-  "EMAIL": { "pattern": "EMAIL", "desc": "이메일 (아이디 앞 2자리 제외 및 도메인 유지 마스킹)" },
-  "SSN": { "pattern": "SSN", "desc": "주민등록번호 (생년월일 및 성별 코드 외 뒷자리 마스킹)" },
-  "ADDR": { "pattern": "ADDR_CITY", "desc": "주소 (시/군/구 단위 외 상세 주소 마스킹)" },
-  "IP": { "pattern": "IP_ADDR", "desc": "접속 IP (마지막 4옥텟 대역 마스킹)" },
-  "BIRTH": { "pattern": "BIRTH_DAY", "desc": "생년월일 (출생 연도 외 월/일 정보 마스킹)" },
-  "ID": { "pattern": "USER_ID", "desc": "로그인 ID (식별 방지를 위해 앞 3자리 제외 마스킹)" }
+  "NAME":   { "action": "MASK",       "pattern": "NAME_KR",    "desc": "성명 마스킹 (홍*동)" },
+  "PHONE":  { "action": "MASK",       "pattern": "PHONE_KR",   "desc": "휴대폰 마스킹 (010-****-1234)" },
+  "EMAIL":  { "action": "MASK",       "pattern": "EMAIL",      "desc": "이메일 마스킹 (ho***@domain.com)" },
+  "SSN":    { "action": "MASK",       "pattern": "SSN",        "desc": "주민번호 뒷자리 마스킹 (900101-1******)" },
+  "ID":     { "action": "MASK",       "pattern": "USER_ID",    "desc": "아이디 마스킹 (adm***)" },
+
+  "ADDR":   { "action": "GENERALIZE", "pattern": "ADDR_CITY",  "desc": "주소 일반화 (시/군/구 단위 노출)" },
+  "IP":     { "action": "GENERALIZE", "pattern": "IP_ADDR",    "desc": "IP 대역 일반화 (192.168.0.***)" },
+  "BIRTH":  { "action": "GENERALIZE", "pattern": "BIRTH_DAY",  "desc": "생년월일 일반화 (1990-**-**)" },
+  "AGE":    { "action": "GENERALIZE", "pattern": "AGE_GROUP",  "desc": "나이 범주화 (20대, 30대)" },
+
+  "ID_HASH":{ "action": "PSEUDONYM",  "pattern": "SHA256",     "desc": "아이디 가명화 (고유 해시값 변환)" },
+  "SSN_HASH":{ "action": "PSEUDONYM", "pattern": "SHA256",     "desc": "주민번호 가명화 (통계 분석용 해시)" }
 }

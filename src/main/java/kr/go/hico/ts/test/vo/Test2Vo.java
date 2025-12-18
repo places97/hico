@@ -16,39 +16,40 @@ public class Test2Vo {
 
   private Long id;
 
-  // 1. 성명 (JSON 정책: NAME_KR)
-  @MaskData(type = "NAME")
+  @MaskData(type = "NAME") // [마스킹] 성명 (성 유지, 이름 중문/말미 마스킹)
   private String name;
 
-  // 2. 이메일 (JSON 정책: EMAIL)
-  @MaskData(type = "EMAIL")
+  @MaskData(type = "EMAIL") // [마스킹] 이메일 (아이디 앞 2자리 제외 마스킹)
   private String email;
 
-  // 3. 주민등록번호 (JSON 정책: SSN)
-  @MaskData(type = "SSN")
+  @MaskData(type = "SSN") // [마스킹] 주민등록번호 (뒷자리 마스킹)
   private String ssn;
 
-  // 4. 휴대폰번호 (JSON 정책: PHONE_KR)
-  @MaskData(type = "PHONE")
+  @MaskData(type = "SSN_HASH") // [가명화] 주민등록번호 해시 (분석용 고유값)
+  private String ssnHash;
+
+  @MaskData(type = "PHONE") // [마스킹] 휴대폰번호 (가운데/뒷자리 마스킹)
   private String phone;
 
-  // 5. 로그인 ID (JSON 정책: USER_ID - 2025년 신규 추가 정책)
-  @MaskData(type = "ID")
+  @MaskData(type = "ID") // [마스킹] 로그인 ID (앞 3자리 제외 마스킹)
   private String loginId;
 
-  // 6. 주소 (JSON 정책: ADDR_CITY - 시/군/구까지만 노출)
-  @MaskData(type = "ADDR")
+  @MaskData(type = "ID_HASH") // [가명화] 로그인 ID 해시 (식별자 가명화)
+  private String loginIdHash;
+
+  @MaskData(type = "ADDR") // [일반화] 주소 (시/군/구 단위 외 상세주소 삭제)
   private String address;
 
-  // 7. 접속 IP (JSON 정책: IP_ADDR - 마지막 대역 마스킹)
-  @MaskData(type = "IP")
+  @MaskData(type = "IP") // [일반화] 접속 IP (마지막 옥텟 대역 마스킹)
   private String lastLoginIp;
 
-  // 8. 생년월일 (JSON 정책: BIRTH_DAY - 월/일 마스킹)
-  @MaskData(type = "BIRTH")
+  @MaskData(type = "BIRTH") // [일반화] 생년월일 (연도 외 월/일 삭제)
   private String birthDate;
 
-  private String password;
+  @MaskData(type = "AGE") // [일반화] 나이 (10대, 20대 단위 범주화)
+  private String age;
 
-  private String authCd;
+  private String password; // 암호화 대상 (비식별 처리 제외)
+
+  private String authCd; // 공통 코드 (비식별 처리 제외)
 }

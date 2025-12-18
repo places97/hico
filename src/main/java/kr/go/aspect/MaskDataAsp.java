@@ -1,6 +1,6 @@
 package kr.go.aspect;
 
-import kr.go.util.MaskDataUtil;
+import kr.go.processor.DeIdentifyProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -14,8 +14,8 @@ import org.springframework.web.servlet.View;
 @Aspect
 @Slf4j
 public class MaskDataAsp {
-    @Autowired
-    private MaskDataUtil maskDataUtil;
+  @Autowired
+  private DeIdentifyProcessor deIdentifyProcessor;
 
     @AfterReturning(
         pointcut = "execution(* kr.go..*Controller.*(..))"
@@ -36,6 +36,6 @@ public class MaskDataAsp {
         log.info("마스킹 처리");
         log.info("----------------------------------------------------");
 
-       maskDataUtil.process(result);
+      deIdentifyProcessor.process(result);
     }
 }
