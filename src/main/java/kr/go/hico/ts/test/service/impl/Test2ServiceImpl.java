@@ -61,6 +61,13 @@ public class Test2ServiceImpl implements Test2Service {
         "010 666 7777", "parkchan", "parkchan", "부산광역시 해운대구 우동",
         "127.0.0.1", "1999-09-09", "26", "pass111", "USER"
     ));
+
+    //log 개인정보 암호화 테스트
+    log.info("log 개인정보 마스킹 테스트");
+    log.info("info : " + testList.get(0));
+    log.debug("debug : " + testList.get(0));
+    log.error("error : " + testList.get(0));
+
     /*
     List<Test2Vo> inner = test2Mapper.getList();
 

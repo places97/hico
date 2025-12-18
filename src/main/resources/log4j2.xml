@@ -4,32 +4,38 @@
     <Console name="console" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%c{1}] %m%n"/>
     </Console>
+
+    <!-- 💡 마스킹 정책을 적용하는 Rewrite Appender 추가 -->
+    <Rewrite name="maskingRewrite">
+      <AppenderRef ref="console"/>
+      <LogMaskingPolicy />
+    </Rewrite>
   </Appenders>
 
   <Loggers>
     <Logger name="jdbc.sqlonly" level="DEBUG" additivity="false">
-      <AppenderRef ref="console"/>
+      <AppenderRef ref="maskingRewrite"/>
     </Logger>
 
     <Logger name="jdbc.sqltiming" level="DEBUG" additivity="false">
-      <AppenderRef ref="console"/>
+      <AppenderRef ref="maskingRewrite"/>
     </Logger>
     
     <Logger name="jdbc.audit" level="ERROR" additivity="false">
-      <AppenderRef ref="console"/>
+      <AppenderRef ref="maskingRewrite"/>
     </Logger>
     
     <Logger name="java.sql" level="DEBUG" additivity="false">
-      <AppenderRef ref="console"/>
+      <AppenderRef ref="maskingRewrite"/>
     </Logger>
     
     <!-- Application Log-->
     <Logger name="kr.go" level="INFO" additivity="false">
-      <AppenderRef ref="console"/>
+      <AppenderRef ref="maskingRewrite"/>
     </Logger>
     
     <Root level="ERROR">
-      <AppenderRef ref="console"/>
+      <AppenderRef ref="maskingRewrite"/>
     </Root>
     
   </Loggers>
