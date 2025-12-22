@@ -1,12 +1,11 @@
 package kr.go.hico.ts.test.web;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import kr.go.common.annotation.MaskData;
 import kr.go.hico.sm.user.vo.UserVo;
 import kr.go.hico.ts.test.service.Test2Service;
 import kr.go.hico.ts.test.vo.Test2Vo;
-import kr.go.util.SecurityUtil;
+import kr.go.common.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +34,7 @@ public class Test2Controller {
       return "hoontest";
     }
 
+  @MaskData
   @GetMapping("/selMask.do")
   public @ResponseBody List<Test2Vo> getList() {
     log.debug("Connect DB Profile :: {}", activeProfile);

@@ -5,7 +5,11 @@
       th:fragment="HeaderFragment">
 
 <head>
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
   <title></title>
+  
   <style>
     header {
       width: 100%;
@@ -42,13 +46,21 @@
 <body>
 
 <th:block th:fragment="script">
-  <th:block th:insert="template/fragments/csrf :: csrfFragment" />
-
+  <!-- <th:block th:insert="template/fragments/csrf :: csrfFragment" />  -->
+  
   <script type="text/javascript">
     const headerScript = (function () {
       function init() {
         fnAddEvent();
       }
+      
+      
+      var obj = {
+    		  url : '/logout.do'
+    		  ,data : ''
+    		  //,dataType : ''
+    		  ,method : 'POST'
+      };
 
       function fnAddEvent() {
         $('#logout').on('click', fnLogout);
@@ -66,11 +78,28 @@
         const paramName = "X-CSRF-TOKEN"; //헤더에 넣을시
 
 */
+/*
         const token = CSRF_TOKEN;
         const paramName = CSRF_HEADER_NAME;
         console.log("token : ", token);
         console.log("paramName : ", paramName);
-
+*/        
+        //AjaxUtil.ajaxPostJson('/logout.do', {},
+        AjaxUtil.fnAjax(obj,
+                // ✅ 성공 콜백 함수
+                function(response) {
+                    console.log('게시물 등록 성공:', response);
+                    alert('로그아웃 되었습니다.');
+                    // 성공 후 목록 페이지로 이동 또는 화면 갱신
+                    window.location.href = '/'; 
+                },
+                // ❌ 에러 콜백 함수
+                function(xhr, status, error) {
+                    console.error('등록 실패 상세:', xhr.responseText);
+                    alert('로그아웃 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                }
+            );
+/*
         $.ajax({
           url: '/logout.do',
           type: 'POST',
@@ -88,6 +117,7 @@
             window.location.href = '/';
           }
         });
+*/
       }
 
       return {
@@ -111,7 +141,7 @@
   </div>
 
   <nav>
-    <a href="/home.do">홈</a>
+    <a href="/">홈</a>
     <a href="/board.do">게시판</a>
     <a href="/test/page.do">서비스</a>
     <a href="#">고객센터</a>

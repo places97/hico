@@ -1,9 +1,9 @@
 package kr.go.config.db;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -44,7 +43,8 @@ public class DBConfig {
     dataSource.setUrl(url);
     dataSource.setUsername(username);
     dataSource.setPassword(password);
-    dataSource.setInitSQL("SET search_path TO hico, public");
+    dataSource.setInitSQL("SET search_path TO public");
+    //dataSource.setInitSQL("SET search_path TO hico, public");
     return dataSource;
   }
 

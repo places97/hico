@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -39,7 +38,8 @@ public class ExtDBConfig {
     dataSource.setUrl(externalUrl);
     dataSource.setUsername(externalUsername);
     dataSource.setPassword(externalPassword);
-    dataSource.setInitSQL("SET search_path TO hico_ext, public");
+    dataSource.setInitSQL("SET search_path TO public");
+    //dataSource.setInitSQL("SET search_path TO hico_ext, public");
     return dataSource;
   }
 

@@ -1,9 +1,6 @@
 package kr.go.hico.sm.user.vo;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import kr.go.annotation.MaskData;
-import kr.go.hico.cd.sur.vo.SurQuestionVo;
+import kr.go.common.annotation.MaskData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

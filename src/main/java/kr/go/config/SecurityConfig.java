@@ -55,7 +55,7 @@ public class SecurityConfig {
         // URL 별 권한 설정
         .authorizeHttpRequests(authorize -> authorize
             // 메인화면..개발용
-            .requestMatchers(new AntPathRequestMatcher("/home.do")).permitAll()
+            .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
             // 관리자
             .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole("ADMIN")
             // 로그인
@@ -66,11 +66,11 @@ public class SecurityConfig {
             // .requestMatchers(new AntPathRequestMatcher("/mypage/**")).hasRole("USER")
             // 정적 리소스 및 Swagger
             .requestMatchers(
-                new AntPathRequestMatcher("/**/*"), //TEST
+                //new AntPathRequestMatcher("/**/*"), //TEST
                 new AntPathRequestMatcher("/css/**"),
                 new AntPathRequestMatcher("/js/**"),
-                new AntPathRequestMatcher("/images/**"),
-                new AntPathRequestMatcher("/")
+                new AntPathRequestMatcher("/images/**")
+                //new AntPathRequestMatcher("/")
             ).permitAll()
 
             // 그 외 모든 요청은 인증된 사용자만 접근 가능
@@ -82,7 +82,7 @@ public class SecurityConfig {
         .formLogin(formLogin -> formLogin
             .loginPage("/login/loginForm.do") // 커스텀 로그인 페이지 URL 지정 (컨트롤러 매핑 필요)
             .loginProcessingUrl("/login.do") // 실제 로그인 처리 요청 URL (시큐리티가 처리)
-            .defaultSuccessUrl("/home.do") // 로그인 성공 후 이동할 페이지
+            .defaultSuccessUrl("/") // 로그인 성공 후 이동할 페이지
             .failureUrl("/login/loginForm.do?error") // 로그인 실패 시 이동할 페이지
             .permitAll()
         )

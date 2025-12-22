@@ -14,7 +14,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
   // ContextConfig (애플리케이션 전반 설정)와 SecurityConfig (보안 설정)를 함께 반환합니다.
   @Override
   protected Class<?>[] getRootConfigClasses() {
-    return new Class<?>[]{ContextConfig.class, SecurityConfig.class};
+    return new Class<?>[]{ContextConfig.class};
   }
 
   // 2. Servlet Context 설정 (DispatcherServlet의 init-param 역할)

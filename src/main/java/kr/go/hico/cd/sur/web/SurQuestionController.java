@@ -3,7 +3,7 @@ package kr.go.hico.cd.sur.web;
 import java.util.List;
 import kr.go.hico.cd.sur.service.SurQuestionService;
 import kr.go.hico.cd.sur.vo.SurQuestionVo;
-import kr.go.hico.cmm.cmm.vo.ResultVo;
+import kr.go.hico.cmm.core.vo.ResultVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

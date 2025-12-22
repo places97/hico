@@ -1,13 +1,12 @@
 package kr.go.hico.sm.post.web;
 
-import kr.go.annotation.CheckSwearWord;
 import kr.go.hico.sm.post.vo.InsertPostVo;
 import kr.go.hico.sm.post.vo.SearchPostVo;
 import kr.go.hico.sm.post.vo.SavePostVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import java.util.List;
-import kr.go.hico.cmm.cmm.vo.ResultVo;
+import kr.go.hico.cmm.core.vo.ResultVo;
 import kr.go.hico.sm.post.service.PostService;
 import kr.go.hico.sm.post.vo.PostVo;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +63,6 @@ public class PostController {
   }
 
   @PostMapping("/insert.do")
-  @CheckSwearWord
   public ResponseEntity<ResultVo> insert(@RequestBody InsertPostVo insertPostVo) {
     ResultVo resultVo = new ResultVo();
     boolean isSuccess = postService.insertPost(insertPostVo);

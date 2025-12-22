@@ -1,0 +1,17 @@
+<settings>
+<mirrors>
+	<mirror>
+		<id>nexus</id>
+		<name>Internal Nexus Repository</name>
+		<url>http://192.192.192.4:8081/repository/maven-public</url>
+		<mirrorOf>*</mirrorOf>
+	</mirror>
+</mirrors>
+  <servers>
+    <server>
+      <id>nexus</id>
+	  <username>devuser</username>
+      <password>devuser1</password>
+    </server>
+  </servers>  
+</settings>

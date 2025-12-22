@@ -2,7 +2,7 @@ package kr.go.hico.sm.board.service.impl;
 
 import kr.go.hico.sm.board.mapper.BoardMapper;
 import kr.go.hico.sm.board.service.BoardService;
-import kr.go.hico.sm.board.vo.BoardVo;
+import kr.go.hico.sm.board.vo.BoardVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +17,9 @@ public class BoardServiceImpl implements BoardService {
   private BoardMapper boardMapper;
 
   @Override
-  public List<BoardVo> getList() {
+  public List<BoardVO> getList() {
 
-    List<BoardVo> list;
+    List<BoardVO> list;
     list = boardMapper.getBoardList();
 
     return list;

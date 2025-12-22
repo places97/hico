@@ -2,7 +2,6 @@ package kr.go.hico.ts.test.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import kr.go.hico.sm.user.vo.UserVo;
 import kr.go.hico.ts.test.externalMapper.ExtTest2Mapper;
 import kr.go.hico.ts.test.mapper.Test2Mapper;
 import kr.go.hico.ts.test.service.Test2Service;

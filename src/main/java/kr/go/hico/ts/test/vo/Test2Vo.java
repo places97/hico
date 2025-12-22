@@ -1,6 +1,6 @@
 package kr.go.hico.ts.test.vo;
 
-import kr.go.annotation.MaskData;
+import kr.go.common.annotation.MaskData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

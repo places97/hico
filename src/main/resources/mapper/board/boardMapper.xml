@@ -2,7 +2,8 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.go.hico.sm.board.mapper.BoardMapper">
 
-	<select id="getBoardList" resultType="kr.go.hico.sm.board.vo.BoardVo">
+	<select id="getBoardList" resultType="kr.go.hico.sm.board.vo.BoardVO">
+	/** kr.go.hico.sm.board.mapper.BoardMapper.getBoardList 게시판 목록 조회 **/ 
 		SELECT
 				board_id
 			, auth_id

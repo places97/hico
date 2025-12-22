@@ -1,9 +1,9 @@
 package kr.go.hico.sm.board.web;
 
 import org.springframework.ui.Model;
-import kr.go.hico.cmm.cmm.vo.ResultVo;
+import kr.go.hico.cmm.core.vo.ResultVo;
 import kr.go.hico.sm.board.service.BoardService;
-import kr.go.hico.sm.board.vo.BoardVo;
+import kr.go.hico.sm.board.vo.BoardVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +26,7 @@ public class BoardController {
 
   @GetMapping("/board.do")
   public String board(Model model) {
-    List<BoardVo> rst = boardSvc.getList();
+    List<BoardVO> rst = boardSvc.getList();
 
     model.addAttribute("activeProfile", activeProfile);
     model.addAttribute("boardList", rst);
@@ -39,7 +39,7 @@ public class BoardController {
     ResultVo resultVo = new ResultVo();
     log.debug("Connect DB Profile :: {}", activeProfile);
 
-    List<BoardVo> rst = boardSvc.getList();
+    List<BoardVO> rst = boardSvc.getList();
     resultVo.setData(rst);
 
     return ResponseEntity.ok(resultVo);

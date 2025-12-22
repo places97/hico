@@ -1,12 +1,11 @@
 package kr.go.hico.sm.post.vo;
 
-import kr.go.hico.cmm.cmm.vo.BaseWriter;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class SavePostVo extends BaseWriter {
+public class SavePostVo {
 
   private Long postId;
   private Long boardId;

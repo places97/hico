@@ -44,8 +44,8 @@ public class PostServiceImpl implements PostService {
 
   @Override
   public boolean insertPost(InsertPostVo insertPostVo) {
-    insertPostVo.setCreatedAt(LocalDate.now());
-    insertPostVo.setUpdatedAt(LocalDate.now());
+    //insertPostVo.setCreatedAt(LocalDate.now());
+    //insertPostVo.setUpdatedAt(LocalDate.now());
     insertPostVo.setUserId(1L);
 
     int insertCount = postMapper.insertPost(insertPostVo);
@@ -63,8 +63,8 @@ public class PostServiceImpl implements PostService {
           .title(savePostVo.getTitle())
           .content(savePostVo.getContent())
           .delYn("N")
-          .createdAt(LocalDate.now())
-          .updatedAt(LocalDate.now())
+          //.createdAt(LocalDate.now())
+          //.updatedAt(LocalDate.now())
           .userId(1L)
           .build();
       int insertCount = postMapper.insertPost(insertPostVo);

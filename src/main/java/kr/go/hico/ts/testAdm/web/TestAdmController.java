@@ -3,7 +3,7 @@ package kr.go.hico.ts.testAdm.web;
 import java.util.List;
 import kr.go.hico.ts.test.service.TestService;
 import kr.go.hico.ts.test.vo.TestVo;
-import kr.go.hico.cmm.cmm.vo.ResultVo;
+import kr.go.hico.cmm.core.vo.ResultVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
