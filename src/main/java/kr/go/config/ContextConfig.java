@@ -10,13 +10,14 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(
-    basePackages = {"kr.go.hico.*.*.service", "kr.go.exception", "kr.go.common"}
+        basePackages = {"kr.go.hico.*.*.service", "kr.go.exception", "kr.go.common"}
 )
 @Import({
-    DBConfig.class
-    , ExtDBConfig.class
-    , PropertyConfig.class
-    , SecurityConfig.class
+        DBConfig.class
+        , ExtDBConfig.class
+        , PropertyConfig.class
+        , SecurityConfig.class
+        , QuartzConfig.class
 })
 public class ContextConfig {
 
